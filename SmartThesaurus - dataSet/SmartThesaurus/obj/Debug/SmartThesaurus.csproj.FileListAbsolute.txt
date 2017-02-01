@@ -1,0 +1,48 @@
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+I:\PROJETS\semestre2\OO\SmartThesaurus\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\MaterialSkin.dll
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+I:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\bin\Debug\MaterialSkin.dll
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\bin\Debug\MaterialSkin.dll
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+F:\PROJETS\semestre2\OO\SmartThesaurus - dataSet\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
