@@ -101,7 +101,7 @@ namespace SmartThesaurus
             {
                 listFileinfo.Add(new FileInfo(file));
             }
-            writeInXml();
+           // writeInXml();
 
         }
 
@@ -109,7 +109,6 @@ namespace SmartThesaurus
         {
             try
             {
-
                 sortedListFileInfo = new List<FileInfo>();
                 listViewResultTemp.Items.Clear();
 

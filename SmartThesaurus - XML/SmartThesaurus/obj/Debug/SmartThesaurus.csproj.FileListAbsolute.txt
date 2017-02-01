@@ -36,3 +36,13 @@ F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThes
 F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
 F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
 F:\PROJETS\semestre2\OO\SmartThesaurus - Copy\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\bin\Debug\SmartThesaurus.exe.config
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\bin\Debug\SmartThesaurus.exe
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\bin\Debug\SmartThesaurus.pdb
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\bin\Debug\MaterialSkin.dll
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.csprojResolveAssemblyReference.cache
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
