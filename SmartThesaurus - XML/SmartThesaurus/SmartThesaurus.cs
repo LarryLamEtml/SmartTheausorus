@@ -18,6 +18,12 @@ namespace SmartThesaurus
     public partial class formSearch : Form
     {
         List<string> listComboBoxElements = new List<string>();
+        List<File> fileListEtml = new List<File>();
+        List<File> fileListEducanet = new List<File>();
+        List<File> fileListTemp = new List<File>();
+        DateTime dateToActualiseEtml;
+        DateTime dateToActualiseEducanet;
+        DateTime dateToActualiseTemp;
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
         const string PATH = @"K:\INF\eleves\temp";
         String[] allfiles;
@@ -31,7 +37,7 @@ namespace SmartThesaurus
         /// Permet de pouvoir deplacer l'application malgré que le formBorderStyle soit à "none" !! mais permet de l'agrandir
         /// </summary>
         /// <param name="m"></param>
-        protected override void WndProc(ref Message m)
+      /*  protected override void WndProc(ref Message m)
         {
             const int WM_NCHITTEST = 0x84;
             const int HT_CLIENT = 0x1;
@@ -40,7 +46,7 @@ namespace SmartThesaurus
             if (m.Msg == WM_NCHITTEST)
                 m.Result = (IntPtr)(HT_CAPTION);
 
-        }
+        }*/
 
         public formSearch()
         {
@@ -69,7 +75,7 @@ namespace SmartThesaurus
             settings.OmitXmlDeclaration = true;
 
 
-            XmlWriter writer = XmlWriter.Create("tempData.xml",settings);
+            XmlWriter writer = XmlWriter.Create("tempData.xml", settings);
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Files");
@@ -78,7 +84,7 @@ namespace SmartThesaurus
             {
                 writer.WriteStartElement("File");
 
-                writer.WriteElementString("name", fi.Name);  
+                writer.WriteElementString("name", fi.Name);
                 writer.WriteElementString("size", BytesToString(fi.Length));
                 writer.WriteElementString("lastModified", fi.LastWriteTime.ToString());
                 writer.WriteElementString("directory", fi.Directory.ToString());
@@ -89,7 +95,36 @@ namespace SmartThesaurus
             writer.WriteEndElement();
             writer.WriteEndDocument();
         }
+        public void dataToXML()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
 
+            settings.Indent = true;
+            settings.IndentChars = ("\t");
+            settings.OmitXmlDeclaration = true;
+
+            XmlWriter writer = XmlWriter.Create("tempData.xml", settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Files");
+
+            foreach (File f in fileListTemp)
+            {
+                writer.WriteStartElement("File");
+
+                writer.WriteElementString("id", f.idFile.ToString());
+                writer.WriteElementString("name", f.Name);
+                writer.WriteElementString("size", f.Size);
+                writer.WriteElementString("lastModified", f.LastWriteTime.ToString());
+                writer.WriteElementString("directory", f.Directory);
+                writer.WriteElementString("directory", f.idDateToActualise.ToString());
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+        }
 
         public void actualiseData()
         {
@@ -97,19 +132,38 @@ namespace SmartThesaurus
 
             listFileinfo = new List<FileInfo>();
 
+            switch (TbCMain.SelectedIndex)
+            {
+                case 0:
+
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+                    int idCount = 0;
+                    fileListTemp.Clear();
+                    foreach (var fi in listFileinfo)
+                    {
+                        File file = new File(idCount, fi.Name, BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString(), TbCMain.SelectedIndex);
+                        fileListTemp.Add(file);
+                        idCount++;
+                    }
+                    break;
+
+            }
             foreach (var file in allfiles)
             {
                 listFileinfo.Add(new FileInfo(file));
             }
-            writeInXml();
-
+            // writeInXml();
+            dataToXML();
         }
 
         public void searchTemp()
         {
             try
             {
-
                 sortedListFileInfo = new List<FileInfo>();
                 listViewResultTemp.Items.Clear();
 
@@ -117,9 +171,9 @@ namespace SmartThesaurus
                 {
                     regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
                 }
+
                 foreach (FileInfo fi in listFileinfo)
                 {
-
                     if (txbInputTemp.Text != "")
                     {
                         Match match = regexCondition.Match(fi.Name);
@@ -147,9 +201,9 @@ namespace SmartThesaurus
                 listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
                 listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé");
+                MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé " + ex);
             }
         }
 
