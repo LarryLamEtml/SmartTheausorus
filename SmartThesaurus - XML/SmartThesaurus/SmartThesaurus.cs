@@ -37,7 +37,7 @@ namespace SmartThesaurus
         /// Permet de pouvoir deplacer l'application malgré que le formBorderStyle soit à "none" !! mais permet de l'agrandir
         /// </summary>
         /// <param name="m"></param>
-        protected override void WndProc(ref Message m)
+      /*  protected override void WndProc(ref Message m)
         {
             const int WM_NCHITTEST = 0x84;
             const int HT_CLIENT = 0x1;
@@ -46,7 +46,7 @@ namespace SmartThesaurus
             if (m.Msg == WM_NCHITTEST)
                 m.Result = (IntPtr)(HT_CAPTION);
 
-        }
+        }*/
 
         public formSearch()
         {
