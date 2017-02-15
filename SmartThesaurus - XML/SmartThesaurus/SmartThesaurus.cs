@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace SmartThesaurus
 {
@@ -21,14 +22,16 @@ namespace SmartThesaurus
         List<File> fileListEtml = new List<File>();
         List<File> fileListEducanet = new List<File>();
         List<File> fileListTemp = new List<File>();
-        DateTime dateToActualiseEtml;
-        DateTime dateToActualiseEducanet;
-        DateTime dateToActualiseTemp;
+        string dateToActualiseEtml = "12.12.2017";
+        string dateToActualiseEducanet = "25.05.2017";
+        string dateToActualiseTemp = "15.02.2017";
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
         const string PATH = @"K:\INF\eleves\temp";
-        String[] allfiles;
-        List<FileInfo> listFileinfo;
-        List<FileInfo> sortedListFileInfo;
+        String[] allTempFiles;
+        List<FileInfo> listFileinfoEtml;
+        List<FileInfo> listFileinfoEducanet;
+        List<FileInfo> listFileinfoTemp;
+        List<File> sortedListFile;
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
@@ -37,7 +40,7 @@ namespace SmartThesaurus
         /// Permet de pouvoir deplacer l'application malgré que le formBorderStyle soit à "none" !! mais permet de l'agrandir
         /// </summary>
         /// <param name="m"></param>
-        protected override void WndProc(ref Message m)
+      /*  protected override void WndProc(ref Message m)
         {
             const int WM_NCHITTEST = 0x84;
             const int HT_CLIENT = 0x1;
@@ -46,7 +49,7 @@ namespace SmartThesaurus
             if (m.Msg == WM_NCHITTEST)
                 m.Result = (IntPtr)(HT_CAPTION);
 
-        }
+        }*/
 
         public formSearch()
         {
@@ -57,44 +60,117 @@ namespace SmartThesaurus
             btnSearchEtml.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
             btnSearchEducanet.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
             btnSearchTemp.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
-            actualiseData();
-            readXML();
+
+            //Vérification de la date d'actualisation des fichiers
+            checkDate(0);
+            checkDate(1);
+            checkDate(2);
+
+            actualiseViewTemp();
+
+
+
         }
-
-        public void readXML()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        public void checkDate(int index)
         {
+            string fileToRead = "";
+            int idDateToActualise = 0;
 
-        }
-
-        public void writeInXml()
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-
-            settings.Indent = true;
-            settings.IndentChars = ("\t");
-            settings.OmitXmlDeclaration = true;
-
-
-            XmlWriter writer = XmlWriter.Create("tempData.xml", settings);
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("Files");
-
-            foreach (FileInfo fi in listFileinfo)
+            switch (index)
             {
-                writer.WriteStartElement("File");
-
-                writer.WriteElementString("name", fi.Name);
-                writer.WriteElementString("size", BytesToString(fi.Length));
-                writer.WriteElementString("lastModified", fi.LastWriteTime.ToString());
-                writer.WriteElementString("directory", fi.Directory.ToString());
-
-                writer.WriteEndElement();
+                case 0:
+                    fileToRead = ("etmlData.xml");
+                    idDateToActualise = 0;
+                    break;
+                case 1:
+                    fileToRead = ("eduData.xml");
+                    idDateToActualise = 1;
+                    break;
+                case 2:
+                    fileToRead = ("tempData.xml");
+                    idDateToActualise = 2;
+                    break;
             }
+            
+           /* ;
 
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
+            var files = from file in xmlDoc.Descendants("File")
+                        select idDateToActualise = Convert.ToInt32(file.Element("idDateToActualise").Value);
+                        */
+            //Vérifie si la date d'actualisation des fichiers correspond à aujourdhui 
+            switch (idDateToActualise)
+            {
+                case 0:
+                    if (dateToActualiseEtml == DateTime.Now.ToShortDateString())
+                    {
+                        actualiseData(idDateToActualise);//Actualise les données
+                    }
+                    break;
+                case 1:
+                    if (dateToActualiseEducanet == DateTime.Now.ToShortDateString())
+                    {
+                        actualiseData(idDateToActualise);//Actualise les données
+                    }
+                    break;
+                case 2:
+                    if (dateToActualiseTemp == DateTime.Now.ToShortDateString())
+                    {
+                        actualiseData(idDateToActualise);//Actualise les données
+                    }
+                    break;
+            }
+            //Lis le ficher xml contenants les données
+            readXML(idDateToActualise);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        public void actualiseData(int index)
+        {
+            allTempFiles = Directory.GetFiles(PATH, "*.*", SearchOption.AllDirectories);
+            /*
+            listFileinfoEducanet.Add(new FileInfo(file));
+            listFileinfoTemp.Add(new FileInfo(file));
+            */
+
+            switch (index)
+            {
+                case 0:
+
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+                    listFileinfoTemp = new List<FileInfo>();
+
+                    foreach (var file in allTempFiles)
+                    {
+                        listFileinfoTemp.Add(new FileInfo(file));
+                    }
+                    int idCount = 0;
+                    fileListTemp.Clear();
+
+                    foreach (FileInfo fi in listFileinfoTemp)
+                    {
+                        File file = new File(idCount, fi.Name, BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString(), TbCMain.SelectedIndex);
+                        fileListTemp.Add(file);
+                        idCount++;
+                    }
+                    break;
+
+            }
+            dataToXML();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public void dataToXML()
         {
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -117,54 +193,81 @@ namespace SmartThesaurus
                 writer.WriteElementString("size", f.Size);
                 writer.WriteElementString("lastModified", f.LastWriteTime.ToString());
                 writer.WriteElementString("directory", f.Directory);
-                writer.WriteElementString("directory", f.idDateToActualise.ToString());
+                writer.WriteElementString("idDateToActualise", f.idDateToActualise.ToString());
 
                 writer.WriteEndElement();
             }
 
             writer.WriteEndElement();
             writer.WriteEndDocument();
+            writer.Close();
         }
-
-        public void actualiseData()
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        public void readXML(int index)
         {
-            allfiles = Directory.GetFiles(PATH, "*.*", SearchOption.AllDirectories);
-
-            listFileinfo = new List<FileInfo>();
-
-            switch (TbCMain.SelectedIndex)
+            string fileToRead = "";
+            switch (index)
             {
                 case 0:
-
+                    fileToRead = ("etmlData.xml");
                     break;
                 case 1:
-
+                    fileToRead = ("eduData.xml");
                     break;
                 case 2:
-                    int idCount = 0;
-                    fileListTemp.Clear();
-                    foreach (var fi in listFileinfo)
-                    {
-                        File file = new File(idCount, fi.Name, BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString(), TbCMain.SelectedIndex);
-                        fileListTemp.Add(file);
-                        idCount++;
-                    }
+                    fileToRead = ("tempData.xml");
                     break;
+            }
+            try
+            {
+                fileListTemp.Clear();
+                XDocument xmlDoc = XDocument.Load(fileToRead);
+                var files = from file in xmlDoc.Descendants("File")
+                            select new
+                            {
+                                id = file.Element("id").Value,
+                                name = file.Element("name").Value,
+                                size = file.Element("size").Value,
+                                lastModified = file.Element("lastModified").Value,
+                                directory = file.Element("directory").Value,
+                                idDateToActualise = file.Element("idDateToActualise").Value,
+                            };
+                // string text = "";
+
+                //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
+                foreach (var file in files)
+                {
+                   /* text = text + "Id: " + file.id + "\n";
+                    text = text + "Name: " + file.name + "\n";
+                    text = text + "size: " + file.size + "\n";
+                    text = text + "lastModified: " + file.lastModified + "\n";
+                    text = text + "directory: " + file.directory + "\n";
+                    text = text + "idDateToActualise: " + file.idDateToActualise + "\n\n";*/
+
+                    File newFile = new File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory, Convert.ToInt32(file.idDateToActualise));
+                    fileListTemp.Add(newFile);
+                }
 
             }
-            foreach (var file in allfiles)
+            catch (Exception ex)
             {
-                listFileinfo.Add(new FileInfo(file));
+                MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
+
             }
-            // writeInXml();
-            dataToXML();
         }
 
-        public void searchTemp()
+        /// <summary>
+        /// 
+        /// </summary>
+        public void actualiseViewTemp()
         {
             try
             {
-                sortedListFileInfo = new List<FileInfo>();
+                sortedListFile = new List<File>();
                 listViewResultTemp.Items.Clear();
 
                 if (txbInputTemp.Text != "")
@@ -172,7 +275,7 @@ namespace SmartThesaurus
                     regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
                 }
 
-                foreach (FileInfo fi in listFileinfo)
+                foreach (File fi in fileListTemp)
                 {
                     if (txbInputTemp.Text != "")
                     {
@@ -180,31 +283,32 @@ namespace SmartThesaurus
                         if (match.Success)
                         {
                             ListViewItem lvi = new ListViewItem(fi.Name);
-                            lvi.SubItems.Add(BytesToString(fi.Length));
+                            lvi.SubItems.Add((fi.Size));
                             lvi.SubItems.Add(fi.LastWriteTime.ToString());
                             lvi.SubItems.Add(fi.Directory.ToString());
                             listViewResultTemp.Items.Add(lvi);
-                            sortedListFileInfo.Add(fi);
+                            sortedListFile.Add(fi);
                         }
                     }
                     else
                     {
                         ListViewItem lvi = new ListViewItem(fi.Name);
-                        lvi.SubItems.Add(BytesToString(fi.Length));
+                        lvi.SubItems.Add((fi.Size));
                         lvi.SubItems.Add(fi.LastWriteTime.ToString());
                         lvi.SubItems.Add(fi.Directory.ToString());
                         listViewResultTemp.Items.Add(lvi);
-                        sortedListFileInfo.Add(fi);
+                        sortedListFile.Add(fi);
                     }
 
                 }
                 listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
                 listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé " + ex);
             }
+
         }
 
         public void searchEtml()
@@ -228,10 +332,6 @@ namespace SmartThesaurus
             return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
-        private void formSearch_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnHide_Click(object sender, EventArgs e)
         {
@@ -251,7 +351,7 @@ namespace SmartThesaurus
 
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
-            searchTemp();
+            actualiseViewTemp();
         }
 
         private void listViewResultTemp_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -265,11 +365,11 @@ namespace SmartThesaurus
             //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);
             try
             {
-                Process.Start(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);
+                Process.Start(sortedListFile[selectedFileIndex].Directory + @"\" + sortedListFile[selectedFileIndex].Name);
             }
             catch
             {
-                MessageBox.Show("Erreur lors de l'ouverture du fichier");
+                MessageBox.Show("Erreur lors de l'ouverture du fichier, il à peut être été supprimé ou modifié");
             }
 
         }
