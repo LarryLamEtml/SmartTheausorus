@@ -1,4 +1,4 @@
-﻿<Files>
+<Files>
 	<File>
 		<id>0</id>
 		<name>fichierTel (2).xlsx</name>
@@ -25,14 +25,6 @@
 	</File>
 	<File>
 		<id>3</id>
-		<name>Nouveau document texte.txt</name>
-		<size>9 B</size>
-		<lastModified>08.02.2017 11:03:03</lastModified>
-		<directory>K:\INF\eleves\temp</directory>
-		<idDateToActualise>0</idDateToActualise>
-	</File>
-	<File>
-		<id>4</id>
 		<name>couche3.txt</name>
 		<size>5 B</size>
 		<lastModified>08.02.2017 10:23:09</lastModified>
@@ -40,7 +32,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>5</id>
+		<id>4</id>
 		<name>test.docx</name>
 		<size>11.2 KB</size>
 		<lastModified>08.02.2017 10:18:00</lastModified>
@@ -48,7 +40,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>6</id>
+		<id>5</id>
 		<name>details.jpg</name>
 		<size>16.3 KB</size>
 		<lastModified>01.02.2017 14:11:55</lastModified>
@@ -56,7 +48,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>7</id>
+		<id>6</id>
 		<name>Drole32.jpg</name>
 		<size>31.8 KB</size>
 		<lastModified>01.02.2017 14:10:25</lastModified>
@@ -64,7 +56,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>8</id>
+		<id>7</id>
 		<name>DSTId2L.jpg</name>
 		<size>312.3 KB</size>
 		<lastModified>01.02.2017 14:03:20</lastModified>
@@ -72,7 +64,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>9</id>
+		<id>8</id>
 		<name>trump-putin.jpg</name>
 		<size>223.8 KB</size>
 		<lastModified>31.01.2017 13:49:19</lastModified>
@@ -80,7 +72,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>10</id>
+		<id>9</id>
 		<name>U7Uoxfe.jpg</name>
 		<size>68.9 KB</size>
 		<lastModified>01.02.2017 14:02:27</lastModified>
@@ -88,7 +80,7 @@
 		<idDateToActualise>0</idDateToActualise>
 	</File>
 	<File>
-		<id>11</id>
+		<id>10</id>
 		<name>Pong.exe</name>
 		<size>3.2 MB</size>
 		<lastModified>11.01.2017 14:16:31</lastModified>

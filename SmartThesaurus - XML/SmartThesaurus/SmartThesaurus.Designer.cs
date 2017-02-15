@@ -429,7 +429,6 @@
             this.Padding = new System.Windows.Forms.Padding(8, 30, 8, 8);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Smart Thésaurus";
-            this.Load += new System.EventHandler(this.formSearch_Load);
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
             this.TbCMain.ResumeLayout(false);
