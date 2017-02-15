@@ -24,7 +24,7 @@ namespace SmartThesaurus
         List<File> fileListTemp = new List<File>();
         string dateToActualiseEtml = "12.12.2017";
         string dateToActualiseEducanet = "25.05.2017";
-        string dateToActualiseTemp = "08.02.2017";
+        string dateToActualiseTemp = "15.02.2017";
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
         const string PATH = @"K:\INF\eleves\temp";
         String[] allTempFiles;
@@ -95,8 +95,7 @@ namespace SmartThesaurus
                     idDateToActualise = 2;
                     break;
             }
-            XDocument xmlDoc = XDocument.Load(fileToRead);
-
+            
            /* ;
 
             var files = from file in xmlDoc.Descendants("File")
@@ -126,7 +125,6 @@ namespace SmartThesaurus
             }
             //Lis le ficher xml contenants les données
             readXML(idDateToActualise);
-
         }
 
         /// <summary>
@@ -226,6 +224,7 @@ namespace SmartThesaurus
             }
             try
             {
+                fileListTemp.Clear();
                 XDocument xmlDoc = XDocument.Load(fileToRead);
                 var files = from file in xmlDoc.Descendants("File")
                             select new
@@ -238,8 +237,6 @@ namespace SmartThesaurus
                                 idDateToActualise = file.Element("idDateToActualise").Value,
                             };
                 // string text = "";
-
-                fileListTemp.Clear();
 
                 //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
                 foreach (var file in files)
@@ -258,7 +255,7 @@ namespace SmartThesaurus
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
 
             }
         }
