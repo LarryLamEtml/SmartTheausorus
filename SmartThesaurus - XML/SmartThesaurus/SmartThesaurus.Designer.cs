@@ -1,4 +1,7 @@
-﻿namespace SmartThesaurus
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace SmartThesaurus
 {
     partial class formSearch
     {
@@ -63,8 +66,12 @@
             this.btnSearchTemp = new System.Windows.Forms.Button();
             this.txbInputTemp = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
+            this.lblBackColor = new System.Windows.Forms.Label();
             this.btnHide = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.cmbActualisation = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.pnlMain.SuspendLayout();
             this.TbCMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -162,7 +169,7 @@
             this.pnlSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.pnlSearchBar.Controls.Add(this.pblSearchBtn);
             this.pnlSearchBar.Controls.Add(this.txbInputEtml);
-            this.pnlSearchBar.Location = new System.Drawing.Point(131, 12);
+            this.pnlSearchBar.Location = new System.Drawing.Point(49, 13);
             this.pnlSearchBar.Name = "pnlSearchBar";
             this.pnlSearchBar.Size = new System.Drawing.Size(482, 40);
             this.pnlSearchBar.TabIndex = 18;
@@ -180,6 +187,7 @@
             // 
             this.btnSearchEtml.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchEtml.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearchEtml.BackgroundImage")));
+            this.btnSearchEtml.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchEtml.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearchEtml.Location = new System.Drawing.Point(5, 3);
             this.btnSearchEtml.Name = "btnSearchEtml";
@@ -200,6 +208,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.listViewResultEducanet);
             this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -249,24 +259,25 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.txbInputEducanet);
-            this.panel1.Location = new System.Drawing.Point(131, 12);
+            this.panel1.Location = new System.Drawing.Point(136, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 40);
+            this.panel1.Size = new System.Drawing.Size(395, 40);
             this.panel1.TabIndex = 21;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Window;
             this.panel2.Controls.Add(this.btnSearchEducanet);
-            this.panel2.Location = new System.Drawing.Point(443, 4);
+            this.panel2.Location = new System.Drawing.Point(355, 4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(36, 32);
-            this.panel2.TabIndex = 10;
+            this.panel2.TabIndex = 11;
             // 
             // btnSearchEducanet
             // 
             this.btnSearchEducanet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchEducanet.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearchEducanet.BackgroundImage")));
+            this.btnSearchEducanet.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchEducanet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearchEducanet.Location = new System.Drawing.Point(5, 3);
             this.btnSearchEducanet.Name = "btnSearchEducanet";
@@ -278,10 +289,10 @@
             // 
             this.txbInputEducanet.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txbInputEducanet.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbInputEducanet.Location = new System.Drawing.Point(3, 4);
+            this.txbInputEducanet.Location = new System.Drawing.Point(4, 4);
             this.txbInputEducanet.Multiline = true;
             this.txbInputEducanet.Name = "txbInputEducanet";
-            this.txbInputEducanet.Size = new System.Drawing.Size(442, 32);
+            this.txbInputEducanet.Size = new System.Drawing.Size(354, 32);
             this.txbInputEducanet.TabIndex = 1;
             // 
             // tabPage3
@@ -337,7 +348,7 @@
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Controls.Add(this.txbInputTemp);
-            this.panel3.Location = new System.Drawing.Point(131, 12);
+            this.panel3.Location = new System.Drawing.Point(49, 13);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(482, 40);
             this.panel3.TabIndex = 21;
@@ -355,6 +366,7 @@
             // 
             this.btnSearchTemp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchTemp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSearchTemp.BackgroundImage")));
+            this.btnSearchTemp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.btnSearchTemp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearchTemp.Location = new System.Drawing.Point(5, 3);
             this.btnSearchTemp.Name = "btnSearchTemp";
@@ -385,6 +397,15 @@
             this.lblSearch.TabIndex = 14;
             this.lblSearch.Text = "Rechercher";
             // 
+            // lblBackColor
+            // 
+            this.lblBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.lblBackColor.Location = new System.Drawing.Point(573, 192);
+            this.lblBackColor.Name = "lblBackColor";
+            this.lblBackColor.Size = new System.Drawing.Size(155, 34);
+            this.lblBackColor.TabIndex = 24;
+            this.lblBackColor.Text = " ";
+            // 
             // btnHide
             // 
             this.btnHide.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
@@ -412,16 +433,60 @@
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // cmbActualisation
+            // 
+            this.cmbActualisation.DropDownHeight = 300;
+            this.cmbActualisation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbActualisation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbActualisation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbActualisation.ForeColor = System.Drawing.Color.Black;
+            this.cmbActualisation.FormattingEnabled = true;
+            this.cmbActualisation.IntegralHeight = false;
+            this.cmbActualisation.Location = new System.Drawing.Point(576, 195);
+            this.cmbActualisation.Name = "cmbActualisation";
+            this.cmbActualisation.Size = new System.Drawing.Size(150, 28);
+            this.cmbActualisation.TabIndex = 23;
+            this.cmbActualisation.SelectedIndexChanged += new System.EventHandler(this.cmbActualisation_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(561, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 33);
+            this.button1.TabIndex = 2;
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.button2.Location = new System.Drawing.Point(19, 17);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(106, 33);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Se Connecter";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // formSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(801, 600);
+            this.Controls.Add(this.lblBackColor);
             this.Controls.Add(this.btnHide);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.lblTitle);
+            this.Controls.Add(this.cmbActualisation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -464,8 +529,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnSearchEducanet;
         private System.Windows.Forms.TextBox txbInputEducanet;
         private System.Windows.Forms.ListView listViewResultTemp;
         private System.Windows.Forms.ColumnHeader colHeadName;
@@ -486,6 +549,12 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ComboBox cmbActualisation;
+        private Label lblBackColor;
+        private Panel panel2;
+        private Button btnSearchEducanet;
+        private Button button2;
+        private Button button1;
     }
 }
 

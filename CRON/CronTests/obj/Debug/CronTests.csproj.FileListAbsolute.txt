@@ -1,0 +1,7 @@
+C:\Code\DOTNET\Cron\CronTests\obj\Debug\ResolveAssemblyReference.cache
+C:\Code\DOTNET\Cron\CronTests\bin\Debug\Rlc.Cron.Tests.dll
+C:\Code\DOTNET\Cron\CronTests\bin\Debug\Rlc.Cron.Tests.pdb
+C:\Code\DOTNET\Cron\CronTests\bin\Debug\Rlc.Cron.dll
+C:\Code\DOTNET\Cron\CronTests\bin\Debug\Rlc.Cron.pdb
+C:\Code\DOTNET\Cron\CronTests\obj\Debug\Rlc.Cron.Tests.dll
+C:\Code\DOTNET\Cron\CronTests\obj\Debug\Rlc.Cron.Tests.pdb

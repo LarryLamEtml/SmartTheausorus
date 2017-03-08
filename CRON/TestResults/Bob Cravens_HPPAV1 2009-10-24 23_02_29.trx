@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="37295a60-1e25-40ad-b9c6-9cdfbfab2b85" name="Bob Cravens@HPPAV1 2009-10-24 23:02:29" runUser="HPPav1\Bob Cravens" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestRunConfiguration name="Local Test Run" id="56f06782-4050-48e5-9586-e7333cca60f8">
+    <Description>This is a default test run configuration for a local test run.</Description>
+    <Deployment runDeploymentRoot="C:\Code\DOTNET\Cron\TestResults\Bob Cravens_HPPAV1 2009-10-24 23_02_29">
+      <DeploymentItem filename="C:\Code\DOTNET\Cron\Cron\bin\Debug\Rlc.Cron.dll" />
+    </Deployment>
+    <TestTypeSpecific />
+  </TestRunConfiguration>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <Times creation="2009-10-24T23:02:29.2226121-05:00" queuing="2009-10-24T23:02:30.9617116-05:00" start="2009-10-24T23:02:31.1397218-05:00" finish="2009-10-24T23:02:36.9680551-05:00" />
+  <TestDefinitions>
+    <UnitTest name="Stop_Raises_OnThreadAbort_IfNotAbleToStopOnOwn" storage="c:\code\dotnet\cron\crontests\bin\debug\rlc.cron.tests.dll" id="dce2e622-d59d-bca5-76a4-6c135f15760d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="22d01ff3-090a-47cb-aa49-28bd67655a5a" />
+      <TestMethod codeBase="C:\Code\DOTNET\Cron\CronTests\bin\Debug\Rlc.Cron.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Rlc.Cron.Tests.CronEventManagerTests, Rlc.Cron.Tests" name="Stop_Raises_OnThreadAbort_IfNotAbleToStopOnOwn" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="dce2e622-d59d-bca5-76a4-6c135f15760d" executionId="22d01ff3-090a-47cb-aa49-28bd67655a5a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="22d01ff3-090a-47cb-aa49-28bd67655a5a" testId="dce2e622-d59d-bca5-76a4-6c135f15760d" testName="Stop_Raises_OnThreadAbort_IfNotAbleToStopOnOwn" computerName="HPPAV1" duration="00:00:05.1378407" startTime="2009-10-24T23:02:31.2087257-05:00" endTime="2009-10-24T23:02:36.8940509-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

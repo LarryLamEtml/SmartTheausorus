@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +51,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EducanetLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EducanetLogin.Designer.cs">
+      <DependentUpon>EducanetLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="File.cs" />
+    <Compile Include="manualModeActualisation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="manualModeActualisation.Designer.cs">
+      <DependentUpon>manualModeActualisation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="actualisationService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="actualisationService.Designer.cs">
+      <DependentUpon>actualisationService.cs</DependentUpon>
+    </Compile>
     <Compile Include="SmartThesaurus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +86,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>tempData.xsd</DependentUpon>
     </Compile>
+    <Compile Include="WebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="webLogin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="EducanetLogin.resx">
+      <DependentUpon>EducanetLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="manualModeActualisation.resx">
+      <DependentUpon>manualModeActualisation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SmartThesaurus.resx">
       <DependentUpon>SmartThesaurus.cs</DependentUpon>
     </EmbeddedResource>

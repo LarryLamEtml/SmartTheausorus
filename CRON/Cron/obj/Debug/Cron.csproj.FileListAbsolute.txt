@@ -1,0 +1,10 @@
+C:\Code\DOTNET\Cron\Cron\obj\Debug\ResolveAssemblyReference.cache
+C:\Code\DOTNET\Cron\Cron\bin\Debug\Rlc.Cron.dll
+C:\Code\DOTNET\Cron\Cron\bin\Debug\Rlc.Cron.pdb
+C:\Code\DOTNET\Cron\Cron\obj\Debug\Rlc.Cron.dll
+C:\Code\DOTNET\Cron\Cron\obj\Debug\Rlc.Cron.pdb
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\CRON\Cron\bin\Debug\Rlc.Cron.dll
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\CRON\Cron\bin\Debug\Rlc.Cron.pdb
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\CRON\Cron\obj\Debug\Cron.csprojResolveAssemblyReference.cache
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\CRON\Cron\obj\Debug\Rlc.Cron.dll
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\CRON\Cron\obj\Debug\Rlc.Cron.pdb

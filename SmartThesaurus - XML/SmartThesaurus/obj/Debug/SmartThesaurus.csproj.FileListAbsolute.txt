@@ -46,3 +46,5 @@ F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartTh
 F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.formSearch.resources
 F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.Properties.Resources.resources
 F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.csproj.GenerateResource.Cache
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.manualModeActualisation.resources
+F:\PROJETS\semestre2\P_OO\GitKraken\SmartTheausorus\SmartThesaurus - XML\SmartThesaurus\obj\Debug\SmartThesaurus.EducanetLogin.resources
