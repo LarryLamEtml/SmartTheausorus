@@ -2,7 +2,7 @@
 
 using System;
 
-namespace SmarthThesaurusLibrary
+namespace SmartThesaurusLibrary
 {
     public static class Library
     {

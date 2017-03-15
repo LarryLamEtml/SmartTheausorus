@@ -20,10 +20,11 @@ namespace SmartThesaurus
 {
     public partial class formSearch : Form
     {
+        Controller view;
         List<string> listCmb = new List<string>();
-        List<SmarthThesaurusLibrary.File> fileListEtml = new List<SmarthThesaurusLibrary.File>();
-        List<SmarthThesaurusLibrary.File> fileListEducanet = new List<SmarthThesaurusLibrary.File>();
-        List<SmarthThesaurusLibrary.File> fileListTemp = new List<SmarthThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> fileListEtml = new List<SmartThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
         string dateToActualiseEtml = "12.12.2017";
         string dateToActualiseEducanet = "25.05.2017";
         string dateToActualiseTemp = "15.02.2017";
@@ -31,7 +32,7 @@ namespace SmartThesaurus
         const string PATH = @"K:\INF\eleves\temp";
         List<FileInfo> listFileinfoEtml;
         List<FileInfo> listFileinfoEducanet;
-        List<SmarthThesaurusLibrary.File> sortedListFile;
+        List<SmartThesaurusLibrary.File> sortedListFile;
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
@@ -60,6 +61,7 @@ namespace SmartThesaurus
         {
             InitializeComponent();
             initialiseComboBox();
+            view = new Controller(this);
             manualActualisation = new manualModeActualisation(this);
             login = new EducanetLogin(this);
             this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
@@ -96,59 +98,7 @@ namespace SmartThesaurus
                 cmbActualisation.Items.Add(choice);
             }
         }
-        /////// <summary>
-        /////// 
-        /////// </summary>
-        /////// <param name="index"></param>
-        ////public void checkDate(int index)
-        ////{
-        ////    string fileToRead = "";
-
-        ////    switch (index)
-        ////    {
-        ////        case 0:
-        ////            fileToRead = ("etmlData.xml");
-        ////            break;
-        ////        case 1:
-        ////            fileToRead = ("eduData.xml");
-        ////            break;
-        ////        case 2:
-        ////            fileToRead = ("tempData.xml");
-        ////            break;
-        ////    }
-
-        ////     ;
-        ////    XDocument xmlDoc = XDocument.Load(fileToRead);
-        ////    var files = from file in xmlDoc.Descendants("File")
-        ////                select new
-        ////                {
-        ////                    idDateToActualise = Convert.ToInt32(file.Element("idDateToActualise").Value)
-        ////                };
-        ////    //Vérifie si la date d'actualisation des fichiers correspond à aujourdhui 
-        ////    switch (index)
-        ////    {
-        ////        case 0:
-        ////            if (dateToActualiseEtml == DateTime.Now.ToShortDateString())
-        ////            {
-        ////                actualiseData(index);//Actualise les données
-        ////            }
-        ////            break;
-        ////        case 1:
-        ////            if (dateToActualiseEducanet == DateTime.Now.ToShortDateString())
-        ////            {
-        ////                actualiseData(index);//Actualise les données
-        ////            }
-        ////            break;
-        ////        case 2:
-        ////            if (dateToActualiseTemp == DateTime.Now.ToShortDateString())
-        ////            {
-        ////                actualiseData(index);//Actualise les données
-        ////            }
-        ////            break;
-        ////    }
-        ////    //Lis le ficher xml contenants les données
-        ////    readXML(index);
-        ////}
+     
 
         /// <summary>
         /// 
@@ -157,27 +107,8 @@ namespace SmartThesaurus
         public void actualiseData()
         {
             String[] allTempFiles = Directory.GetFiles(PATH, "*.*", SearchOption.AllDirectories);
-            /*//---------------------actualise temp info -----------------------------
-
-            List<FileInfo> listFileinfoTemp = new List<FileInfo>();
-
-            foreach (var file in allTempFiles)
-            {
-                listFileinfoTemp.Add(new FileInfo(file));
-            }
-            int idCount = 0;
-            fileListTemp.Clear();
-
-            foreach (FileInfo fi in listFileinfoTemp)
-            {
-                SmarthThesaurusLibrary.File file = new SmarthThesaurusLibrary.File(idCount, fi.Name, BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString(), TbCMain.SelectedIndex);
-                fileListTemp.Add(file);
-                idCount++;
-            }
-            tempDataToXML();
-            etmlDataToXML();
-            eduDataToXML();*/
-            SmarthThesaurusLibrary.XML.actualiseData(allTempFiles, fileListTemp, TbCMain.SelectedIndex);
+            //Dit au model de changer les donnàes
+            SmartThesaurusLibrary.XML.actualiseData(allTempFiles, fileListTemp, TbCMain.SelectedIndex);
         }
 
         public void etmlDataToXML()
@@ -194,30 +125,7 @@ namespace SmartThesaurus
         /// </summary>
         public void tempDataToXML()
         {
-            //XmlWriter writer = XmlWriter.Create("tempData.xml", settings);
-
-            //writer.WriteStartDocument();
-            //writer.WriteStartElement("Files");
-
-            //foreach (SmarthThesaurusLibrary.File f in fileListTemp)
-            //{
-            //    writer.WriteStartElement("File");
-
-            //    writer.WriteElementString("id", f.idFile.ToString());
-            //    writer.WriteElementString("name", f.Name);
-            //    writer.WriteElementString("size", f.Size);
-            //    writer.WriteElementString("lastModified", f.LastWriteTime.ToString());
-            //    writer.WriteElementString("directory", f.Directory);
-            //    writer.WriteElementString("idDateToActualise", f.idDateToActualise.ToString());
-
-            //    writer.WriteEndElement();
-            //}
-
-            //writer.WriteEndElement();
-            //writer.WriteEndDocument();
-            //writer.Dispose();
-            //writer.Close();
-            SmarthThesaurusLibrary.XML.tempDataToXML(fileListTemp);
+            SmartThesaurusLibrary.XML.tempDataToXML(fileListTemp);
         }
 
         /// <summary>
@@ -253,27 +161,18 @@ namespace SmartThesaurus
                                 directory = file.Element("directory").Value,
                                 idDateToActualise = file.Element("idDateToActualise").Value,
                             };
-                // string text = "";
-
                 //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
                 foreach (var file in files)
                 {
-                    /* text = text + "Id: " + file.id + "\n";
-                     text = text + "Name: " + file.name + "\n";
-                     text = text + "size: " + file.size + "\n";
-                     text = text + "lastModified: " + file.lastModified + "\n";
-                     text = text + "directory: " + file.directory + "\n";
-                     text = text + "idDateToActualise: " + file.idDateToActualise + "\n\n";*/
 
-                    SmarthThesaurusLibrary.File newFile = new SmarthThesaurusLibrary.File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory, Convert.ToInt32(file.idDateToActualise));
+                    SmartThesaurusLibrary.File newFile = new SmartThesaurusLibrary.File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory, Convert.ToInt32(file.idDateToActualise));
                     fileListTemp.Add(newFile);
                 }
 
             }
-            catch (Exception ex)
+            catch 
             {
                 MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
-
             }
         }
 
@@ -284,7 +183,7 @@ namespace SmartThesaurus
         {
             try
             {
-                sortedListFile = new List<SmarthThesaurusLibrary.File>();
+                sortedListFile = new List<SmartThesaurusLibrary.File>();
                 listViewResultTemp.Items.Clear();
 
                 if (txbInputTemp.Text != "")
@@ -292,7 +191,7 @@ namespace SmartThesaurus
                     regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
                 }
 
-                foreach (SmarthThesaurusLibrary.File fi in fileListTemp)
+                foreach (SmartThesaurusLibrary.File fi in fileListTemp)
                 {
                     if (txbInputTemp.Text != "")
                     {
@@ -452,7 +351,7 @@ namespace SmartThesaurus
             writer.WriteEndDocument();
             writer.Dispose();
             writer.Close();*/
-            SmarthThesaurusLibrary.XML.setDateXML(text, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), manualActualisation.getDate());
+            SmartThesaurusLibrary.XML.setDateXML(text, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), manualActualisation.getDate());
 
         }
         private void button2_Click(object sender, EventArgs e)
