@@ -69,7 +69,7 @@ namespace SmartThesaurus
             lblBackColor.BringToFront();
             cmbActualisation.BringToFront();
             controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
-
+            //actualiseData();
             //searchAndDisplayResult();
             readXML(2);
         }
@@ -110,7 +110,7 @@ namespace SmartThesaurus
         {
             String[] allTempFiles = Directory.GetFiles(PATH, "*.*", SearchOption.AllDirectories);
             //Dit au model de changer les donnàes
-            SmartThesaurusLibrary.XML.actualiseData(allTempFiles, fileListTemp, TbCMain.SelectedIndex);
+            tempDataToXML(SmartThesaurusLibrary.XML.actualiseData(allTempFiles, fileListTemp, TbCMain.SelectedIndex));
         }
 
         public void etmlDataToXML()
@@ -125,9 +125,9 @@ namespace SmartThesaurus
         /// <summary>
         /// 
         /// </summary>
-        public void tempDataToXML()
+        public void tempDataToXML(List<SmartThesaurusLibrary.File> _fileListTemp)
         {
-            SmartThesaurusLibrary.XML.tempDataToXML(fileListTemp);
+            SmartThesaurusLibrary.XML.tempDataToXML(_fileListTemp);
         }
 
         /// <summary>
@@ -265,6 +265,7 @@ namespace SmartThesaurus
             //checkDate(2);
             listViewResultTemp.Items.Clear();
             controller.checkSearch(txbInputTemp.Text,fileListTemp,sortedListFileTemp, PATH);
+
         }
 
         private void listViewResultTemp_MouseDoubleClick(object sender, MouseEventArgs e)

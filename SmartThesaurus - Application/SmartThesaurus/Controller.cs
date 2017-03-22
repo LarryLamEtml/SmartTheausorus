@@ -20,7 +20,7 @@ namespace SmartThesaurus
             try
             {
                 _sortedListFileTemp.Clear();
-                Regex regexCondition = new Regex(@""); 
+                Regex regexCondition = new Regex(@"");
 
                 if (_input != "")
                 {
@@ -38,6 +38,7 @@ namespace SmartThesaurus
                             lvi.SubItems.Add((fi.Size));
                             lvi.SubItems.Add(fi.LastWriteTime.ToString());
                             lvi.SubItems.Add(fi.Directory.ToString());
+                            view.addListViewItem(lvi);
                             _sortedListFileTemp.Add(fi);
                         }
                     }
