@@ -33,6 +33,7 @@ namespace SmartThesaurus
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
+
         ManualDateDialog manualActualisation;
         EducanetLogin login;
 
@@ -69,13 +70,11 @@ namespace SmartThesaurus
             lblBackColor.BringToFront();
             cmbActualisation.BringToFront();
 
-            //Affiche tout les fichiers stockés
-            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
-            //searchAndDisplayResult();
             initialiseComboBox();
-            //actualiseData();
-            readXML(2);
+            actualiseData();
 
+            //Affiche tout les fichiers stockés
+            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
         }
         public void logEducanet()
         {
@@ -118,9 +117,9 @@ namespace SmartThesaurus
         /// <param name="index"></param>
         public void actualiseData()
         {
-            controller.actualiseData(PATH, fileListTemp, 0);
-            controller.actualiseData(PATH, fileListEducanet, 1);
-            controller.actualiseData(PATH, fileListEtml, 2);
+            controller.actualiseData(PATH, fileListTemp);
+            /*controller.actualiseData(PATH, fileListEducanet);
+            controller.actualiseData(PATH, fileListEtml);*/
         }
 
         public void etmlDataToXML()
@@ -133,58 +132,7 @@ namespace SmartThesaurus
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
-        public void readXML(int index)
-        {
-            string fileToRead = "";
-
-            switch (index)
-            {
-                case 0:
-                    fileListEtml.Clear();
-                    fileToRead = ("etmlData.xml");
-                    break;
-                case 1:
-                    fileListEducanet.Clear();
-                    fileToRead = ("eduData.xml");
-                    break;
-                case 2:
-                    fileListTemp.Clear();
-                    fileToRead = ("tempData.xml");
-                    break;
-            }
-            try
-            {
-                //Vide la liste
-                //Lit le fichier fileToRead
-                XDocument xmlDoc = XDocument.Load(fileToRead);
-                //Lit et stocke les données
-                var files = from file in xmlDoc.Descendants("File")
-                            select new
-                            {
-                                id = file.Element("id").Value,
-                                name = file.Element("name").Value,
-                                size = file.Element("size").Value,
-                                lastModified = file.Element("lastModified").Value,
-                                directory = file.Element("directory").Value,
-                                idDateToActualise = file.Element("idDateToActualise").Value,
-                            };
-                //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
-                foreach (var file in files)
-                {
-                    SmartThesaurusLibrary.File newFile = new SmartThesaurusLibrary.File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory, Convert.ToInt32(file.idDateToActualise));
-                    fileListTemp.Add(newFile);
-                }
-            }
-            catch //Si le fichier n'a pas pu être ouvert
-            {
-                //Afficher un message d'erreur
-                MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
-            }
-        }
+        
 
         /// <summary>
         /// Ajoute l'item à la listView et redimensionne celle-ci
@@ -227,7 +175,7 @@ namespace SmartThesaurus
         {
             //checkDate(2);
             listViewResultTemp.Items.Clear();
-            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
+            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
 
         }
 

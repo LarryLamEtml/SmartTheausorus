@@ -13,16 +13,14 @@ namespace SmartThesaurusLibrary
         public string Size;
         public DateTime LastWriteTime;
         public string Directory;
-        public int idDateToActualise;
 
-        public File(int idFile, string Name, string Size, DateTime LastWriteTime, string Directory, int idDateToActualise)
+        public File(int idFile, string Name, string Size, DateTime LastWriteTime, string Directory)
         {
             this.idFile = idFile;
             this.Name = Name;
             this.Size = Size;
             this.LastWriteTime = LastWriteTime;
             this.Directory = Directory;
-            this.idDateToActualise = idDateToActualise;
         }
     }
 }

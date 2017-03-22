@@ -46,7 +46,6 @@ namespace SmartThesaurusLibrary
                 writer.WriteElementString("size", f.Size);
                 writer.WriteElementString("lastModified", f.LastWriteTime.ToString());
                 writer.WriteElementString("directory", f.Directory);
-                writer.WriteElementString("idDateToActualise", f.idDateToActualise.ToString());
 
                 writer.WriteEndElement();
             }
@@ -65,7 +64,7 @@ namespace SmartThesaurusLibrary
 
         }
 
-        public static List<File> actualiseData(String[] _allTempFiles, List<File> _fileListTemp, int index)
+        public static void actualiseDataTemp(String[] _allTempFiles, List<File> _fileListTemp)
         {
 
             //---------------------actualise temp info -----------------------------
@@ -80,14 +79,20 @@ namespace SmartThesaurusLibrary
 
             foreach (FileInfo fi in listFileinfoTemp)
             {
-                File file = new File(idCount, fi.Name, Library.BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString(), index);
+                File file = new File(idCount, fi.Name, Library.BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString());
                 _fileListTemp.Add(file);
                 idCount++;
             }
             tempDataToXML(_fileListTemp);
-            etmlDataToXML();
-            eduDataToXML();
-            return _fileListTemp;
+        }
+
+        public static void actualiseDataEtml()
+        {
+
+        }
+        public static void actualiseDataEducanet()
+        {
+
         }
     }
 }

@@ -59,7 +59,7 @@ namespace SmartThesaurus
             btnSearchEtml.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
             btnSearchEducanet.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
             btnSearchTemp.FlatAppearance.BorderColor = Color.FromArgb(25, 250, 65);
-            connectDatabase();
+           // connectDatabase();
             actualiseData();
 
 
