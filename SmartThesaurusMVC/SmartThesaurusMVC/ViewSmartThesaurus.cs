@@ -1,26 +1,19 @@
-﻿using MaterialSkin.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.ServiceProcess;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Linq;
 
-namespace SmartThesaurus
+namespace SmartThesaurusMVC
 {
     public partial class formSearch : Form
     {
-        Controller controller;
+        Controller view;
         List<string> listCmb = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEtml = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
@@ -32,12 +25,12 @@ namespace SmartThesaurus
         const string PATH = @"K:\INF\eleves\temp";
         List<FileInfo> listFileinfoEtml;
         List<FileInfo> listFileinfoEducanet;
-        List<SmartThesaurusLibrary.File> sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> sortedListFile;
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
         Regex regexCondition;
-        ManualDateDialog manualActualisation;
+        manualModeActualisation manualActualisation;
         EducanetLogin login;
 
 
@@ -61,16 +54,14 @@ namespace SmartThesaurus
         {
             InitializeComponent();
             initialiseComboBox();
-            controller = new Controller(this);
-            manualActualisation = new ManualDateDialog(this);
+            view = new Controller(this);
+            manualActualisation = new manualModeActualisation(this);
             login = new EducanetLogin(this);
             this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
             //ramene le combobox au dessus  (visuel)
             lblBackColor.BringToFront();
             cmbActualisation.BringToFront();
-            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
-
-            //searchAndDisplayResult();
+            actualiseViewTemp();
             readXML(2);
         }
 
@@ -181,60 +172,52 @@ namespace SmartThesaurus
         /// <summary>
         /// 
         /// </summary>
-        //public void searchAndDisplayResult()
-        //{
-        //        listViewResultTemp.Items.Clear();
-
-        //    try
-        //    {
-        //        sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
-
-        //        if (txbInputTemp.Text != "")
-        //        {
-        //            regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
-        //        }
-
-        //        foreach (SmartThesaurusLibrary.File fi in fileListTemp)
-        //        {
-        //            if (txbInputTemp.Text != "")
-        //            {
-        //                Match match = regexCondition.Match(fi.Name);
-        //                if (match.Success)
-        //                {
-        //                    ListViewItem lvi = new ListViewItem(fi.Name);
-        //                    lvi.SubItems.Add((fi.Size));
-        //                    lvi.SubItems.Add(fi.LastWriteTime.ToString());
-        //                    lvi.SubItems.Add(fi.Directory.ToString());
-        //                    listViewResultTemp.Items.Add(lvi);
-        //                    sortedListFileTemp.Add(fi);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                ListViewItem lvi = new ListViewItem(fi.Name);
-        //                lvi.SubItems.Add((fi.Size));
-        //                lvi.SubItems.Add(fi.LastWriteTime.ToString());
-        //                lvi.SubItems.Add(fi.Directory.ToString());
-        //                listViewResultTemp.Items.Add(lvi);
-        //                sortedListFileTemp.Add(fi);
-        //            }
-
-        //        }
-        //        listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-        //        listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé " + ex);
-        //    }
-
-        //}
-
-        public void addListViewItem(ListViewItem lvi)
+        public void actualiseViewTemp()
         {
-            listViewResultTemp.Items.Add(lvi);
-            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+            try
+            {
+                sortedListFile = new List<SmartThesaurusLibrary.File>();
+                listViewResultTemp.Items.Clear();
+
+                if (txbInputTemp.Text != "")
+                {
+                    regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
+                }
+
+                foreach (SmartThesaurusLibrary.File fi in fileListTemp)
+                {
+                    if (txbInputTemp.Text != "")
+                    {
+                        Match match = regexCondition.Match(fi.Name);
+                        if (match.Success)
+                        {
+                            ListViewItem lvi = new ListViewItem(fi.Name);
+                            lvi.SubItems.Add((fi.Size));
+                            lvi.SubItems.Add(fi.LastWriteTime.ToString());
+                            lvi.SubItems.Add(fi.Directory.ToString());
+                            listViewResultTemp.Items.Add(lvi);
+                            sortedListFile.Add(fi);
+                        }
+                    }
+                    else
+                    {
+                        ListViewItem lvi = new ListViewItem(fi.Name);
+                        lvi.SubItems.Add((fi.Size));
+                        lvi.SubItems.Add(fi.LastWriteTime.ToString());
+                        lvi.SubItems.Add(fi.Directory.ToString());
+                        listViewResultTemp.Items.Add(lvi);
+                        sortedListFile.Add(fi);
+                    }
+
+                }
+                listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé " + ex);
+            }
+
         }
 
         public void searchEtml()
@@ -263,8 +246,7 @@ namespace SmartThesaurus
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
             //checkDate(2);
-            listViewResultTemp.Items.Clear();
-            controller.checkSearch(txbInputTemp.Text,fileListTemp,sortedListFileTemp, PATH);
+            actualiseViewTemp();
         }
 
         private void listViewResultTemp_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -278,7 +260,7 @@ namespace SmartThesaurus
             //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);
             try
             {
-                Process.Start(sortedListFileTemp[selectedFileIndex].Directory + @"\" + sortedListFileTemp[selectedFileIndex].Name);
+                Process.Start(sortedListFile[selectedFileIndex].Directory + @"\" + sortedListFile[selectedFileIndex].Name);
             }
             catch
             {

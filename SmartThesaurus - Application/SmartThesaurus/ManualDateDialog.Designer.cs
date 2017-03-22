@@ -1,6 +1,6 @@
 ﻿namespace SmartThesaurus
 {
-    partial class manualModeActualisation
+    partial class ManualDateDialog
     {
         /// <summary>
         /// Required designer variable.

@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace SmartThesaurus
 {
-    public partial class manualModeActualisation : Form
+    public partial class ManualDateDialog : Form
     {
         private string date = "";
         formSearch form;
-        public manualModeActualisation(formSearch form)
+        public ManualDateDialog(formSearch form)
         {
             InitializeComponent();
             dtp.MinDate = DateTime.Today;

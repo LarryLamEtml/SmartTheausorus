@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F3C48E68-149A-430E-A828-D900A39D149D}</ProjectGuid>
+    <ProjectGuid>{47C0100C-11B1-4B5F-8B65-59A3A086927A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartThesaurus</RootNamespace>
-    <AssemblyName>SmartThesaurus</AssemblyName>
+    <RootNamespace>SmartThesaurusMVC</RootNamespace>
+    <AssemblyName>SmartThesaurusMVC</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,18 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SmarthThesaurusLibrary">
       <HintPath>..\..\SmartThesaurus - Library\SmarthThesaurusLibrary\SmarthThesaurusLibrary\bin\Debug\SmarthThesaurusLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,66 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
-    <Compile Include="CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EducanetLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EducanetLogin.Designer.cs">
-      <DependentUpon>EducanetLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="File.cs" />
-    <Compile Include="ManualDateDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManualDateDialog.Designer.cs">
-      <DependentUpon>ManualDateDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="actualisationService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="actualisationService.Designer.cs">
-      <DependentUpon>actualisationService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProjectInstaller.Designer.cs">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewSmartThesaurus.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewSmartThesaurus.Designer.cs">
       <DependentUpon>ViewSmartThesaurus.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tempData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="WebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="webLogin.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <EmbeddedResource Include="EducanetLogin.resx">
-      <DependentUpon>EducanetLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ManualDateDialog.resx">
-      <DependentUpon>ManualDateDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewSmartThesaurus.resx">
-      <DependentUpon>ViewSmartThesaurus.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -125,7 +66,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="ViewSmartThesaurus.resx">
+      <DependentUpon>ViewSmartThesaurus.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,17 +78,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="tempData.xsc">
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </None>
-    <None Include="tempData.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>tempData.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="tempData.xss">
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
