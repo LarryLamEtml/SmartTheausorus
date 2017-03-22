@@ -47,7 +47,7 @@
             // 
             // btnSendManualDate
             // 
-            this.btnSendManualDate.Location = new System.Drawing.Point(206, 21);
+            this.btnSendManualDate.Location = new System.Drawing.Point(244, 21);
             this.btnSendManualDate.Name = "btnSendManualDate";
             this.btnSendManualDate.Size = new System.Drawing.Size(48, 23);
             this.btnSendManualDate.TabIndex = 4;
@@ -59,22 +59,22 @@
             // 
             this.dtp.Location = new System.Drawing.Point(58, 24);
             this.dtp.Name = "dtp";
-            this.dtp.Size = new System.Drawing.Size(142, 20);
+            this.dtp.Size = new System.Drawing.Size(180, 20);
             this.dtp.TabIndex = 5;
             this.dtp.Value = new System.DateTime(2017, 3, 1, 9, 28, 26, 0);
             this.dtp.ValueChanged += new System.EventHandler(this.dtp_ValueChanged);
             // 
-            // manualModeActualisation
+            // ManualDateDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(280, 65);
+            this.ClientSize = new System.Drawing.Size(302, 65);
             this.Controls.Add(this.dtp);
             this.Controls.Add(this.btnSendManualDate);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "manualModeActualisation";
+            this.Name = "ManualDateDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Actualisation manuelle";
             this.ResumeLayout(false);

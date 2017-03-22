@@ -21,6 +21,17 @@ namespace SmartThesaurusLibrary
             double num = Math.Round(bytes / Math.Pow(1024, place), 1);
             return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
+
+        public static void startService()
+        {
+            string serviceName = "ActualisationServiceSmartThesaurus";
+            ServiceController controller = new ServiceController(serviceName);
+            if (controller.Status == ServiceControllerStatus.Running)
+                controller.Refresh();
+
+            if (controller.Status == ServiceControllerStatus.Stopped)
+                controller.Start();
+        }
     }
     
 

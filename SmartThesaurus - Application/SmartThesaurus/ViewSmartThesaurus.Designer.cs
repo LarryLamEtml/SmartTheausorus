@@ -46,6 +46,8 @@ namespace SmartThesaurus
             this.btnSearchEtml = new System.Windows.Forms.Button();
             this.txbInputEtml = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnLogin = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.listViewResultEducanet = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -70,8 +72,6 @@ namespace SmartThesaurus
             this.btnHide = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.cmbActualisation = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.pnlMain.SuspendLayout();
             this.TbCMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -208,7 +208,7 @@ namespace SmartThesaurus
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.btnLogin);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.listViewResultEducanet);
             this.tabPage2.Controls.Add(this.panel1);
@@ -219,6 +219,33 @@ namespace SmartThesaurus
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Educanet2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnLogin
+            // 
+            this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.btnLogin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogin.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.btnLogin.Location = new System.Drawing.Point(19, 17);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(106, 33);
+            this.btnLogin.TabIndex = 24;
+            this.btnLogin.Text = "Se Connecter";
+            this.btnLogin.UseVisualStyleBackColor = false;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(561, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 33);
+            this.button1.TabIndex = 2;
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // listViewResultEducanet
             // 
@@ -322,7 +349,6 @@ namespace SmartThesaurus
             this.listViewResultTemp.UseCompatibleStateImageBehavior = false;
             this.listViewResultTemp.View = System.Windows.Forms.View.Details;
             this.listViewResultTemp.ItemActivate += new System.EventHandler(this.listViewResultTemp_ItemActivate);
-            this.listViewResultTemp.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listViewResultTemp_MouseDoubleClick);
             // 
             // colHeadName
             // 
@@ -448,33 +474,6 @@ namespace SmartThesaurus
             this.cmbActualisation.TabIndex = 23;
             this.cmbActualisation.SelectedIndexChanged += new System.EventHandler(this.cmbActualisation_SelectedIndexChanged);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(561, 16);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 33);
-            this.button1.TabIndex = 2;
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.button2.Location = new System.Drawing.Point(19, 17);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(106, 33);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "Se Connecter";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // formSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -553,7 +552,7 @@ namespace SmartThesaurus
         private Label lblBackColor;
         private Panel panel2;
         private Button btnSearchEducanet;
-        private Button button2;
+        private Button btnLogin;
         private Button button1;
     }
 }

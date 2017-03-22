@@ -25,18 +25,14 @@ namespace SmartThesaurus
         List<SmartThesaurusLibrary.File> fileListEtml = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
-        string dateToActualiseEtml = "12.12.2017";
-        string dateToActualiseEducanet = "25.05.2017";
-        string dateToActualiseTemp = "15.02.2017";
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
         const string PATH = @"K:\INF\eleves\temp";
-        List<FileInfo> listFileinfoEtml;
-        List<FileInfo> listFileinfoEducanet;
+        List<SmartThesaurusLibrary.File> sortedListFileEtml = new List<SmartThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> sortedListFileEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
-        Regex regexCondition;
         ManualDateDialog manualActualisation;
         EducanetLogin login;
 
@@ -60,20 +56,27 @@ namespace SmartThesaurus
         public formSearch()
         {
             InitializeComponent();
-            initialiseComboBox();
-            controller = new Controller(this);
-            manualActualisation = new ManualDateDialog(this);
-            login = new EducanetLogin(this);
-            this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
-            //ramene le combobox au dessus  (visuel)
-            lblBackColor.BringToFront();
-            cmbActualisation.BringToFront();
-            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
-            //actualiseData();
-            //searchAndDisplayResult();
-            readXML(2);
+            InitialiseForm();
         }
 
+        public void InitialiseForm()
+        {
+            manualActualisation = new ManualDateDialog(this);
+            controller = new Controller(this, manualActualisation);
+            login = new EducanetLogin(this);
+            this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
+            //ramene le combobox au dessus (visuel)
+            lblBackColor.BringToFront();
+            cmbActualisation.BringToFront();
+
+            //Affiche tout les fichiers stockés
+            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
+            //searchAndDisplayResult();
+            initialiseComboBox();
+            //actualiseData();
+            readXML(2);
+
+        }
         public void logEducanet()
         {
             var client = new CookieAwareWebClient();
@@ -87,30 +90,37 @@ namespace SmartThesaurus
             string htmlSource = client.DownloadString("index.php");
         }
 
+        /// <summary>
+        /// Remplis les options de la ComboBox
+        /// </summary>
         public void initialiseComboBox()
         {
-            listCmb.Clear();
+            listCmb.Clear();//Vide la liste
+
+            //Ajoute les options dans une liste
             listCmb.Add("Actualisation");
             listCmb.Add("Chaque jour");
             listCmb.Add("Chaque heure");
             listCmb.Add("Personnalisé");
             listCmb.Add("Manuel");
+
+            //Pour chaque élément de la liste, l'ajouter à la ComboBox
             foreach (string choice in listCmb)
             {
                 cmbActualisation.Items.Add(choice);
             }
         }
-     
+
 
         /// <summary>
-        /// 
+        /// Actualise les données du fichier XML
         /// </summary>
         /// <param name="index"></param>
         public void actualiseData()
         {
-            String[] allTempFiles = Directory.GetFiles(PATH, "*.*", SearchOption.AllDirectories);
-            //Dit au model de changer les donnàes
-            tempDataToXML(SmartThesaurusLibrary.XML.actualiseData(allTempFiles, fileListTemp, TbCMain.SelectedIndex));
+            controller.actualiseData(PATH, fileListTemp, 0);
+            controller.actualiseData(PATH, fileListEducanet, 1);
+            controller.actualiseData(PATH, fileListEtml, 2);
         }
 
         public void etmlDataToXML()
@@ -122,13 +132,6 @@ namespace SmartThesaurus
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void tempDataToXML(List<SmartThesaurusLibrary.File> _fileListTemp)
-        {
-            SmartThesaurusLibrary.XML.tempDataToXML(_fileListTemp);
-        }
 
         /// <summary>
         /// 
@@ -137,22 +140,28 @@ namespace SmartThesaurus
         public void readXML(int index)
         {
             string fileToRead = "";
+
             switch (index)
             {
                 case 0:
+                    fileListEtml.Clear();
                     fileToRead = ("etmlData.xml");
                     break;
                 case 1:
+                    fileListEducanet.Clear();
                     fileToRead = ("eduData.xml");
                     break;
                 case 2:
+                    fileListTemp.Clear();
                     fileToRead = ("tempData.xml");
                     break;
             }
             try
             {
-                fileListTemp.Clear();
+                //Vide la liste
+                //Lit le fichier fileToRead
                 XDocument xmlDoc = XDocument.Load(fileToRead);
+                //Lit et stocke les données
                 var files = from file in xmlDoc.Descendants("File")
                             select new
                             {
@@ -166,90 +175,45 @@ namespace SmartThesaurus
                 //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
                 foreach (var file in files)
                 {
-
                     SmartThesaurusLibrary.File newFile = new SmartThesaurusLibrary.File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory, Convert.ToInt32(file.idDateToActualise));
                     fileListTemp.Add(newFile);
                 }
-
             }
-            catch 
+            catch //Si le fichier n'a pas pu être ouvert
             {
+                //Afficher un message d'erreur
                 MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
             }
         }
 
         /// <summary>
-        /// 
+        /// Ajoute l'item à la listView et redimensionne celle-ci
         /// </summary>
-        //public void searchAndDisplayResult()
-        //{
-        //        listViewResultTemp.Items.Clear();
-
-        //    try
-        //    {
-        //        sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
-
-        //        if (txbInputTemp.Text != "")
-        //        {
-        //            regexCondition = new Regex(@".*(" + Regex.Escape(txbInputTemp.Text) + @").*");
-        //        }
-
-        //        foreach (SmartThesaurusLibrary.File fi in fileListTemp)
-        //        {
-        //            if (txbInputTemp.Text != "")
-        //            {
-        //                Match match = regexCondition.Match(fi.Name);
-        //                if (match.Success)
-        //                {
-        //                    ListViewItem lvi = new ListViewItem(fi.Name);
-        //                    lvi.SubItems.Add((fi.Size));
-        //                    lvi.SubItems.Add(fi.LastWriteTime.ToString());
-        //                    lvi.SubItems.Add(fi.Directory.ToString());
-        //                    listViewResultTemp.Items.Add(lvi);
-        //                    sortedListFileTemp.Add(fi);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                ListViewItem lvi = new ListViewItem(fi.Name);
-        //                lvi.SubItems.Add((fi.Size));
-        //                lvi.SubItems.Add(fi.LastWriteTime.ToString());
-        //                lvi.SubItems.Add(fi.Directory.ToString());
-        //                listViewResultTemp.Items.Add(lvi);
-        //                sortedListFileTemp.Add(fi);
-        //            }
-
-        //        }
-        //        listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-        //        listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Avertissement, le répertoire du chemin " + PATH + " n'à pas été trouvé " + ex);
-        //    }
-
-        //}
-
+        /// <param name="lvi"></param>
         public void addListViewItem(ListViewItem lvi)
         {
-            listViewResultTemp.Items.Add(lvi);
+            listViewResultTemp.Items.Add(lvi);//Ajoute l'item à la listView
             listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
             listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
         }
 
-        public void searchEtml()
-        {
-
-        }
 
 
-
+        /// <summary>
+        /// Cache la Form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnHide_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-
         }
 
+        /// <summary>
+        /// Ferme la Form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -257,44 +221,50 @@ namespace SmartThesaurus
 
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
-            searchEtml();
         }
 
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
             //checkDate(2);
             listViewResultTemp.Items.Clear();
-            controller.checkSearch(txbInputTemp.Text,fileListTemp,sortedListFileTemp, PATH);
+            controller.checkSearch(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
 
         }
 
-        private void listViewResultTemp_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Lorsqu'on double clique sur le nom d'un fichier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listViewResultTemp_ItemActivate(object sender, EventArgs e)
         {
             int selectedFileIndex = listViewResultTemp.SelectedItems[0].Index;
-            //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);
+            //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);//Test
             try
             {
+                //Execute le fichier associé
                 Process.Start(sortedListFileTemp[selectedFileIndex].Directory + @"\" + sortedListFileTemp[selectedFileIndex].Name);
             }
             catch
             {
-                MessageBox.Show("Erreur lors de l'ouverture du fichier, il à peut être été supprimé ou modifié");
+                //Affiche un message d'erreur
+                MessageBox.Show("Echec de l'ouverture du fichier, il à peut être été supprimé ou modifié");
             }
-
         }
 
+        /// <summary>
+        /// Changement du service en fonction de l'option d'actualisation choisie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbActualisation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            actualisationService service;
+            //Permet de rendre l'option "Actualisation" inchoisissable
             if (cmbActualisation.Text == "Actualisation")
             {
-                cmbActualisation.SelectedIndex = 0;
+                cmbActualisation.SelectedIndex = 0;//Change l'index à 0
             }
+            //Switch en fonction de l'option du combobox choisie
             switch (cmbActualisation.SelectedIndex)
             {
                 case 0:
@@ -330,6 +300,19 @@ namespace SmartThesaurus
             }
 
         }
+
+        /// <summary>
+        /// Définit le mode et la date d'actualisation dans un fichier XML 
+        /// </summary>
+        /// <param name="text"></param>
+        public void setDateXML(string text)
+        {
+            controller.setDateXML(text);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void startService()
         {
             string serviceName = "ActualisationServiceSmartThesaurus";
@@ -340,33 +323,22 @@ namespace SmartThesaurus
             if (controller.Status == ServiceControllerStatus.Stopped)
                 controller.Start();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void useCron()
         {
 
         }
 
-        public void setDateXML(string text)
-        {
-            /*
-            writer = XmlWriter.Create("actualisationDate.xml", settings);
-            settings.Indent = true;
-            settings.IndentChars = ("\t");
-            settings.OmitXmlDeclaration = true;
 
-            writer.WriteStartDocument();
-            writer.WriteStartElement("Date");
-            writer.WriteElementString("actualisationMode", text);
-            writer.WriteElementString("day", DateTime.Today.DayOfYear.ToString());
-            writer.WriteElementString("hour", DateTime.Now.Hour.ToString());
-            writer.WriteElementString("manualDate", manualActualisation.getDate());
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Dispose();
-            writer.Close();*/
-            SmartThesaurusLibrary.XML.setDateXML(text, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), manualActualisation.getDate());
-
-        }
-        private void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Affiche un popup pour se log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogin_Click(object sender, EventArgs e)
         {
             login.ShowDialog();
         }
