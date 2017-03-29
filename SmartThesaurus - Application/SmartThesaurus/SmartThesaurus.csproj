@@ -40,6 +40,10 @@
     <Reference Include="SmarthThesaurusLibrary">
       <HintPath>..\..\SmartThesaurus - Library\SmarthThesaurusLibrary\SmarthThesaurusLibrary\bin\Debug\SmarthThesaurusLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="SpiderLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\SpiderLogic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -79,6 +83,7 @@
     <Compile Include="actualisationService.Designer.cs">
       <DependentUpon>actualisationService.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultiFormContext.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -104,6 +109,7 @@
     <Compile Include="webLogin.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WebPage.cs" />
     <EmbeddedResource Include="EducanetLogin.resx">
       <DependentUpon>EducanetLogin.cs</DependentUpon>
     </EmbeddedResource>

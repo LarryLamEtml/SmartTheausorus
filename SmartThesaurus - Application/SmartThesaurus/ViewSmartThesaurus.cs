@@ -1,20 +1,10 @@
-﻿using MaterialSkin.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+using System.Net;
 using System.ServiceProcess;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace SmartThesaurus
 {
@@ -22,7 +12,7 @@ namespace SmartThesaurus
     {
         Controller controller;
         List<string> listCmb = new List<string>();
-        List<SmartThesaurusLibrary.File> fileListEtml = new List<SmartThesaurusLibrary.File>();
+        List<string> fileListEtml = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
@@ -36,6 +26,7 @@ namespace SmartThesaurus
 
         ManualDateDialog manualActualisation;
         EducanetLogin login;
+        
 
 
         /// <summary> 
@@ -65,6 +56,7 @@ namespace SmartThesaurus
             manualActualisation = new ManualDateDialog(this);
             controller = new Controller(this, manualActualisation);
             login = new EducanetLogin(this);
+
             this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
             //ramene le combobox au dessus (visuel)
             lblBackColor.BringToFront();
@@ -132,17 +124,32 @@ namespace SmartThesaurus
         }
 
 
-        
+
 
         /// <summary>
         /// Ajoute l'item à la listView et redimensionne celle-ci
         /// </summary>
         /// <param name="lvi"></param>
-        public void addListViewItem(ListViewItem lvi)
+        public void addListViewItem(ListViewItem lvi, int index)
         {
-            listViewResultTemp.Items.Add(lvi);//Ajoute l'item à la listView
-            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+            switch (index)
+            {
+                case 0:
+                    listViewResultEtml.Items.Add(lvi);//Ajoute l'item à la listView
+                    listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                    listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                    break;
+                case 1:
+                    listViewResultEducanet.Items.Add(lvi);//Ajoute l'item à la listView
+                    listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                    listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                    break;
+                case 2:
+                    listViewResultTemp.Items.Add(lvi);//Ajoute l'item à la listView
+                    listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                    listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                    break;
+            }
         }
 
 
@@ -169,6 +176,13 @@ namespace SmartThesaurus
 
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
+            listViewResultEtml.Items.Clear();
+            controller.searchUrlMatching(txbInputEtml.Text,fileListEtml);
+            if(fileListEtml.Count==0)
+            {
+                MessageBox.Show("Aucun résultat trouvé");
+            }
+
         }
 
         private void btnSearchTemp_Click(object sender, EventArgs e)
@@ -289,6 +303,13 @@ namespace SmartThesaurus
         private void btnLogin_Click(object sender, EventArgs e)
         {
             login.ShowDialog();
+        }
+
+        private void listViewResultEtml_ItemActivate(object sender, EventArgs e)
+        {
+
+            System.Diagnostics.Process.Start(fileListEtml[listViewResultEtml.SelectedItems[0].Index]);
+
         }
     }
 

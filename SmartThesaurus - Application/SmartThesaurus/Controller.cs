@@ -16,6 +16,7 @@ namespace SmartThesaurus
         const string fileNameEtml = "etmlData.xml";
         const string fileNameEducanet = "educanetData.xml";
         const string fileNameTemp = "tempData.xml";
+        WebPage web = WebPage.getInstance();
 
         public Controller(formSearch _view, ManualDateDialog _manualActualisation)
         {
@@ -46,7 +47,7 @@ namespace SmartThesaurus
                             lvi.SubItems.Add((fi.Size));
                             lvi.SubItems.Add(fi.LastWriteTime.ToString());
                             lvi.SubItems.Add(fi.Directory.ToString());
-                            view.addListViewItem(lvi);
+                            view.addListViewItem(lvi,2);
                             _sortedListFileTemp.Add(fi);
                         }
                     }
@@ -56,7 +57,7 @@ namespace SmartThesaurus
                         lvi.SubItems.Add((fi.Size));
                         lvi.SubItems.Add(fi.LastWriteTime.ToString());
                         lvi.SubItems.Add(fi.Directory.ToString());
-                        view.addListViewItem(lvi);
+                        view.addListViewItem(lvi,2);
                         _sortedListFileTemp.Add(fi);
                     }
 
@@ -129,6 +130,24 @@ namespace SmartThesaurus
         public void setDateXML(string text)
         {
             SmartThesaurusLibrary.XML.setDateXML(text, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), manualActualisation.getDate());
+        }
+
+        public void searchUrlMatching(string _text, List<string> _fileListEtml)
+        {
+            _fileListEtml.Clear();
+
+            if (_text != "")
+            {
+                foreach (string s in web.getAllUrls())
+                {
+                    if (web.searchOnWeb(_text, s) != "")
+                    {
+                        ListViewItem lvi = new ListViewItem(s);
+                        _fileListEtml.Add(s);
+                        view.addListViewItem(lvi, 0);
+                    }
+                }
+            }
         }
     }
 }

@@ -37,9 +37,6 @@ namespace SmartThesaurus
             this.TbCMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listViewResultEtml = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlSearchBar = new System.Windows.Forms.Panel();
             this.pblSearchBtn = new System.Windows.Forms.Panel();
@@ -133,9 +130,6 @@ namespace SmartThesaurus
             // listViewResultEtml
             // 
             this.listViewResultEtml.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
             this.columnHeader4});
             this.listViewResultEtml.GridLines = true;
             this.listViewResultEtml.Location = new System.Drawing.Point(9, 67);
@@ -144,24 +138,11 @@ namespace SmartThesaurus
             this.listViewResultEtml.TabIndex = 23;
             this.listViewResultEtml.UseCompatibleStateImageBehavior = false;
             this.listViewResultEtml.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Nom";
-            this.columnHeader1.Width = 363;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Taille";
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Dernière fois modifié";
-            this.columnHeader3.Width = 139;
+            this.listViewResultEtml.ItemActivate += new System.EventHandler(this.listViewResultEtml_ItemActivate);
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Chemin";
+            this.columnHeader4.Text = "Page concernée";
             this.columnHeader4.Width = 153;
             // 
             // pnlSearchBar
@@ -539,9 +520,6 @@ namespace SmartThesaurus
         private System.Windows.Forms.Button btnSearchTemp;
         private System.Windows.Forms.TextBox txbInputTemp;
         private System.Windows.Forms.ListView listViewResultEtml;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ListView listViewResultEducanet;
         private System.Windows.Forms.ColumnHeader columnHeader5;
