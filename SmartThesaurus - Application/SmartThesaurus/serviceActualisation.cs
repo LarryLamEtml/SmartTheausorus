@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
@@ -17,6 +19,7 @@ namespace SmartThesaurus
         const string day = ("day");
         const string hour = ("hour");
         const string manualDate = ("manualDate");
+        const string PATH = @"K:\INF\eleves\temp";
 
         string xmlMode = "";
         string xmlDay = "";
@@ -59,7 +62,7 @@ namespace SmartThesaurus
                 //Si nous somme le jours suivant
                 if (Convert.ToInt32(DateTime.Now.DayOfYear) > Convert.ToInt32(xmlDay))
                 {
-                    formsearch.setDateXML(xmlMode);
+                    SmartThesaurusLibrary.XML.setDateXML(xmlMode, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), xmlManual);
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(86390000));//Met en pause pendant 23h59min et 50 secondes
                 }
@@ -72,7 +75,7 @@ namespace SmartThesaurus
             {
                 if (Convert.ToInt32(DateTime.Now.Hour) > Convert.ToInt32(xmlHour))
                 {
-                    formsearch.setDateXML(xmlMode);
+                    SmartThesaurusLibrary.XML.setDateXML(xmlMode, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), xmlManual);
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(3590000));//Met en pause pendant 59min et 50 secondes
                 }
@@ -94,7 +97,7 @@ namespace SmartThesaurus
             {
                 if ((DateTime.Now.ToShortDateString()) == (xmlManual))
                 {
-                    formsearch.setDateXML(xmlMode);
+                    SmartThesaurusLibrary.XML.setDateXML(xmlMode, DateTime.Today.DayOfYear.ToString(), DateTime.Now.Hour.ToString(), xmlManual);
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(3590000));//Met en pause pendant 59min et 50 secondes
                 }
@@ -169,7 +172,7 @@ namespace SmartThesaurus
         {
             // TODO: ajoutez ici le code pour effectuer les destructions nécessaires à l'arrêt de votre service.
         }
-
+        
 
     }
 }

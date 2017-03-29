@@ -37,13 +37,33 @@ namespace SmartThesaurus
 
             using (System.Net.WebClient webClient = new System.Net.WebClient())
                 webpageData = webClient.DownloadString(url);
-
+            
             string[] tableWords = webpageData.Split(' ');
             bool containsWord = webpageData.Contains(word);
             if (containsWord)
             {
                 return url;
             }else
+            {
+                return "";
+            }
+
+        }
+
+        public string fdsf(string word, string url)
+        {
+            string webpageData;
+
+            using (System.Net.WebClient webClient = new System.Net.WebClient())
+                webpageData = webClient.DownloadString(url);
+
+            string[] tableWords = webpageData.Split(' ');
+            bool containsWord = webpageData.Contains(word);
+            if (containsWord)
+            {
+                return url;
+            }
+            else
             {
                 return "";
             }

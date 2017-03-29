@@ -55,9 +55,28 @@ namespace SmartThesaurusLibrary
             writer.Dispose();
             writer.Close();
         }
-        public static void etmlDataToXML()
-        {
 
+        public static void etmlDataToXML(List<string> url, List<string> content)
+        {
+            XmlWriter writer = XmlWriter.Create("etmlData.xml", settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Pages");
+
+            for (int i = 0; i < url.Count; i++)
+            {
+                writer.WriteStartElement("Page");
+
+                writer.WriteElementString("url", url[i]);
+                writer.WriteElementString("content", content[i]);
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Dispose();
+            writer.Close();
         }
         public static void eduDataToXML()
         {

@@ -12,9 +12,9 @@ namespace SmartThesaurus
     {
         Controller controller;
         List<string> listCmb = new List<string>();
-        List<string> fileListEtml = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
+        List<SmartThesaurusLibrary.File> fileListEtml = new List<SmartThesaurusLibrary.File>();
         //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
         const string PATH = @"K:\INF\eleves\temp";
         List<SmartThesaurusLibrary.File> sortedListFileEtml = new List<SmartThesaurusLibrary.File>();
@@ -179,18 +179,33 @@ namespace SmartThesaurus
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
             listViewResultEtml.Items.Clear();
-            controller.searchUrlMatching(txbInputEtml.Text,fileListEtml);
-            if(fileListEtml.Count==0)
+            if(txbInputEtml.Text!="")
             {
-                MessageBox.Show("Aucun résultat trouvé");
+                controller.searchUrlMatching(txbInputEtml.Text, fileListEtml);
+                if (fileListEtml.Count == 0)
+                {
+                    MessageBox.Show("Aucun résultat trouvé");
+                }
             }
 
         }
+        public void WriteEtmlData()
+        {
+            controller.WriteEtmlData();
+        }
 
+        public void ReadAndDisplayEtmlData()
+        {
+            controller.readAndDisplayEtmlData();
+        }
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
+            listViewResultTemp.Items.Clear();
             //checkDate(2);
-            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp,ref sortedListFileTemp, PATH);
+            if (txbInputTemp.Text != "")
+            {
+                controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, ref sortedListFileTemp, PATH);
+            }
         }
 
         public void clearListViewTemp()
