@@ -1,6 +1,6 @@
-﻿namespace SmartThesaurus
+﻿namespace serviceActualisation
 {
-    partial class actualisationService
+    partial class serviceActualisation
     {
         /// <summary> 
         /// Variable nécessaire au concepteur.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service d'actualisation de données";
+            this.ServiceName = "Service1";
         }
 
         #endregion

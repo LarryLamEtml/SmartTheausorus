@@ -23,10 +23,12 @@ namespace SmartThesaurus
         const string ETML = "ETML";
         const string EDUCANET = "Educanet2";
         const string TEMP = "Temp";
+        const string SERVICENAME = "serviceActualisation";
 
         ManualDateDialog manualActualisation;
         EducanetLogin login;
-        
+
+        ServiceBase service;
 
 
         /// <summary> 
@@ -64,9 +66,9 @@ namespace SmartThesaurus
 
             initialiseComboBox();
             actualiseData();
-
             //Affiche tout les fichiers stockés
-            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
+
+            
         }
         public void logEducanet()
         {
@@ -109,7 +111,7 @@ namespace SmartThesaurus
         /// <param name="index"></param>
         public void actualiseData()
         {
-            controller.actualiseData(PATH, fileListTemp);
+            controller.actualiseData(PATH, fileListTemp,ref sortedListFileTemp);
             /*controller.actualiseData(PATH, fileListEducanet);
             controller.actualiseData(PATH, fileListEtml);*/
         }
@@ -188,9 +190,12 @@ namespace SmartThesaurus
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
             //checkDate(2);
-            listViewResultTemp.Items.Clear();
-            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, sortedListFileTemp, PATH);
+            controller.checkSearchTemp(txbInputTemp.Text, fileListTemp,ref sortedListFileTemp, PATH);
+        }
 
+        public void clearListViewTemp()
+        {
+            listViewResultTemp.Items.Clear();
         }
 
         /// <summary>
@@ -251,13 +256,16 @@ namespace SmartThesaurus
                     manualActualisation.ShowDialog();
                     if (manualActualisation.getDate() == "")
                     {
-                        manualActualisation.Close();
+                        manualActualisation.Hide();
+                        MessageBox.Show("Veuillez choisir une date");
+                    }else
+                    {
                         setDateXML(listCmb[cmbActualisation.SelectedIndex]);
+                        startService();
 
                     }
                     //Lance ou relance le service
                     //service = new actualisationService(this);
-                    startService();
                     break;
             }
 
@@ -277,13 +285,17 @@ namespace SmartThesaurus
         /// </summary>
         private void startService()
         {
-            string serviceName = "ActualisationServiceSmartThesaurus";
-            ServiceController controller = new ServiceController(serviceName);
-            if (controller.Status == ServiceControllerStatus.Running)
-                controller.Refresh();
+            //Démarre un service
+            service = new serviceActualisation(this);
+            ServiceBase.Run(service);
+            /*
+            ServiceController sc = new ServiceController(SERVICENAME);
 
-            if (controller.Status == ServiceControllerStatus.Stopped)
-                controller.Start();
+            if (sc.Status == ServiceControllerStatus.Running)
+                sc.Refresh();
+
+            if (sc.Status == ServiceControllerStatus.Stopped)
+                sc.Start();*/
         }
 
         /// <summary>

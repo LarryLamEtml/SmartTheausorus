@@ -24,10 +24,11 @@ namespace SmartThesaurus
             manualActualisation = _manualActualisation;
         }
 
-        public void checkSearchTemp(string _input, List<SmartThesaurusLibrary.File> _fileListTemp, List<SmartThesaurusLibrary.File> _sortedListFileTemp, string path)
+        public void checkSearchTemp(string _input, List<SmartThesaurusLibrary.File> _fileListTemp,ref List<SmartThesaurusLibrary.File> _sortedListFileTemp, string path)
         {
             try
             {
+                view.clearListViewTemp();
                 _sortedListFileTemp.Clear();
                 Regex regexCondition = new Regex(@"");
 
@@ -73,7 +74,7 @@ namespace SmartThesaurus
         /// 
         /// </summary>
         /// <param name="index"></param>
-        public void actualiseData(string _PATH, List<SmartThesaurusLibrary.File> _fileListTemp)
+        public void actualiseData(string _PATH, List<SmartThesaurusLibrary.File> _fileListTemp, ref List<SmartThesaurusLibrary.File> _sortedListFileTemp)
         {
             String[] allTempFiles = Directory.GetFiles(_PATH, "*.*", SearchOption.AllDirectories);
             String[] allEtmlFiles = new String[1]; 
@@ -81,8 +82,7 @@ namespace SmartThesaurus
 
             //Dit au modèle (librairie) d'actualiser les données
             SmartThesaurusLibrary.XML.actualiseDataTemp(allTempFiles, _fileListTemp);
-            readXMLTemp(_fileListTemp);
-
+            LoadTempData(ref _fileListTemp, ref _sortedListFileTemp, _PATH);
             //SmartThesaurusLibrary.XML.actualiseDataEtml();
             //SmartThesaurusLibrary.XML.actualiseDataEducanet();
         }
@@ -91,7 +91,7 @@ namespace SmartThesaurus
         /// 
         /// </summary>
         /// <param name="index"></param>
-        public void readXMLTemp(List<SmartThesaurusLibrary.File> _fileListTemp)
+        public void LoadTempData(ref List<SmartThesaurusLibrary.File> _fileListTemp,ref List<SmartThesaurusLibrary.File> _sortedListFileTemp, string path)
         {
             try
             {
@@ -116,6 +116,7 @@ namespace SmartThesaurus
                     SmartThesaurusLibrary.File newFile = new SmartThesaurusLibrary.File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory);
                     _fileListTemp.Add(newFile);
                 }
+                checkSearchTemp("", _fileListTemp,ref _sortedListFileTemp, path);
             }
             catch (Exception ex) //Si le fichier n'a pas pu être ouvert
             {
@@ -136,8 +137,6 @@ namespace SmartThesaurus
         {
             _fileListEtml.Clear();
 
-            if (_text != "")
-            {
                 foreach (string s in web.getAllUrls())
                 {
                     if (web.searchOnWeb(_text, s) != "")
@@ -147,7 +146,6 @@ namespace SmartThesaurus
                         view.addListViewItem(lvi, 0);
                     }
                 }
-            }
         }
     }
 }

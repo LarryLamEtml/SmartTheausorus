@@ -3,15 +3,12 @@ using System.Data;
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace SmartThesaurus
 {
-    partial class actualisationService : ServiceBase
+    public partial class serviceActualisation : ServiceBase
     {
-
         const string dayMode = ("Chaque jour");
         const string hourMode = ("Chaque heure");
         const string costumizedMode = ("Personnalisé");
@@ -27,12 +24,11 @@ namespace SmartThesaurus
         string xmlManual = "";
         formSearch formsearch;
 
-        public actualisationService(formSearch form)
+        public serviceActualisation(formSearch form)
         {
             InitializeComponent();
-
             formsearch = form;
-            OnStart(null);
+            //OnStart(null);
         }
 
         protected override void OnStart(string[] args)
@@ -51,7 +47,7 @@ namespace SmartThesaurus
                     actualisecostumizedMode();
                     break;
                 case manualMode:
-                    actualiseManualMode(xmlManual);
+                    actualiseManualMode();
                     break;
             }
         }
@@ -67,6 +63,7 @@ namespace SmartThesaurus
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(86390000));//Met en pause pendant 23h59min et 50 secondes
                 }
+                Thread.Sleep(60000);//Effectue la vérification chaque minutes
             }
         }
         public void actualisehourMode()
@@ -79,7 +76,7 @@ namespace SmartThesaurus
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(3590000));//Met en pause pendant 59min et 50 secondes
                 }
-
+                Thread.Sleep(60000);//Effectue la vérification chaque minutes
             }
 
         }
@@ -91,7 +88,7 @@ namespace SmartThesaurus
             }
 
         }
-        public void actualiseManualMode(string date)
+        public void actualiseManualMode()
         {
             while (true)
             {
@@ -101,7 +98,7 @@ namespace SmartThesaurus
                     formsearch.actualiseData();
                     Thread.Sleep(Convert.ToInt32(3590000));//Met en pause pendant 59min et 50 secondes
                 }
-
+                Thread.Sleep(60000);//Effectue la vérification chaque minutes
             }
 
         }
@@ -113,13 +110,13 @@ namespace SmartThesaurus
                 XDocument xmlDoc = XDocument.Load("actualisationDate.xml");
                 //Lis et stocke les infos du fichier xml
                 var xmlInfos = from info in xmlDoc.Descendants("Date")
-                                        select new
-                                        {
-                                            xmlMode = info.Element("actualisationMode").Value,
-                                            xmlDay = info.Element("day").Value,
-                                            xmlHour = info.Element("hour").Value,
-                                            xmlManual = info.Element("manualDate").Value,
-                                        };
+                               select new
+                               {
+                                   xmlMode = info.Element("actualisationMode").Value,
+                                   xmlDay = info.Element("day").Value,
+                                   xmlHour = info.Element("hour").Value,
+                                   xmlManual = info.Element("manualDate").Value,
+                               };
                 //Parcours et récupères les informations lues dans le fichier xml
                 foreach (var info in xmlInfos)
                 {
@@ -163,7 +160,7 @@ namespace SmartThesaurus
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
                 return dayMode;
             }
         }
@@ -172,5 +169,7 @@ namespace SmartThesaurus
         {
             // TODO: ajoutez ici le code pour effectuer les destructions nécessaires à l'arrêt de votre service.
         }
+
+
     }
 }
