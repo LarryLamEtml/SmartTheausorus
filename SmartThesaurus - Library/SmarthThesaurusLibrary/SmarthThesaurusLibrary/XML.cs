@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace SmartThesaurusLibrary
 {
@@ -10,10 +12,14 @@ namespace SmartThesaurusLibrary
 
         static XmlWriterSettings settings = new XmlWriterSettings();
         static XmlWriter writer;
+        const string fileNameEtml = "etmlData.xml";
+        const string fileNameEducanet = "educanetData.xml";
+        const string fileNameTemp = "tempData.xml";
+        const string fileNameDate = "actualisationDate.xml";
 
         public static void setDateXML(string actualisation, string day, string hour, string manualDate)
         {
-            writer = XmlWriter.Create("actualisationDate.xml", settings);
+            writer = XmlWriter.Create(fileNameDate, settings);
             settings.Indent = true;
             settings.IndentChars = ("\t");
             settings.OmitXmlDeclaration = true;
@@ -32,7 +38,7 @@ namespace SmartThesaurusLibrary
 
         public static void tempDataToXML(List<File> _fileListTemp)
         {
-            XmlWriter writer = XmlWriter.Create("tempData.xml", settings);
+            XmlWriter writer = XmlWriter.Create(fileNameTemp, settings);
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Files");
@@ -55,20 +61,87 @@ namespace SmartThesaurusLibrary
             writer.Dispose();
             writer.Close();
         }
-
-        public static void etmlDataToXML(List<string> url, List<string> content)
+        public static List<File> loadTempData(string path)
         {
-            XmlWriter writer = XmlWriter.Create("etmlData.xml", settings);
+            try
+            {
+                List<File> _fileListTemp = new List<File>();
+                //Vide la liste
+                _fileListTemp.Clear();
+
+                //Lit le fichier fileToRead
+                XDocument xmlDoc = XDocument.Load(fileNameTemp);
+                //Lit et stocke les données
+                var files = from file in xmlDoc.Descendants("File")
+                            select new
+                            {
+                                id = file.Element("id").Value,
+                                name = file.Element("name").Value,
+                                size = file.Element("size").Value,
+                                lastModified = file.Element("lastModified").Value,
+                                directory = file.Element("directory").Value,
+                            };
+                //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
+                foreach (var file in files)
+                {
+                    File newFile = new File(Convert.ToInt32(file.id), file.name, file.size, Convert.ToDateTime(file.lastModified), file.directory);
+                    _fileListTemp.Add(newFile);
+                }
+
+                return _fileListTemp;
+            }
+            catch (Exception ex) //Si le fichier n'a pas pu être ouvert
+            {
+                return null;
+            }
+        }
+        public static Dictionary<string, string> readEtmlData()
+        {
+            Dictionary<string, string> listUrls = new Dictionary<string, string>();
+
+            try
+            {
+                //Vide la liste
+
+                //Lit le fichier fileToRead
+                XDocument xmlDoc = XDocument.Load(fileNameEtml);
+                //Lit et stocke les données
+                var Pages = from Page in xmlDoc.Descendants("Page")
+                            select new
+                            {
+                                url = Page.Element("url").Value,
+                                content = Page.Element("content").Value,
+                            };
+                //Lis chaque fichier dans le fichier XML et lajoute dans la liste des fichiers (local)
+                foreach (var Page in Pages)
+                {
+                    listUrls.Add(Page.url, Page.content);
+                }
+                return listUrls;
+                //checkSearchEtml(listUrls, listContent);
+            }
+            catch (Exception ex) //Si le fichier n'a pas pu être ouvert
+            {
+                //Afficher un message d'erreur
+                //MessageBox.Show("Il n'y aucun documents enregistré dans la base de donnée, veuillez la mettre à jour");
+                //throw new InvalidOperationException();
+                return null;
+            }
+        }
+
+        public static void etmlDataToXML(Dictionary<string, string> listUrls)
+        {
+            XmlWriter writer = XmlWriter.Create(fileNameEtml, settings);
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Pages");
 
-            for (int i = 0; i < url.Count; i++)
+            foreach (var url in listUrls)
             {
                 writer.WriteStartElement("Page");
 
-                writer.WriteElementString("url", url[i]);
-                writer.WriteElementString("content", content[i]);
+                writer.WriteElementString("url", url.Key);
+                writer.WriteElementString("content", url.Value);
 
                 writer.WriteEndElement();
             }
@@ -77,6 +150,20 @@ namespace SmartThesaurusLibrary
             writer.WriteEndDocument();
             writer.Dispose();
             writer.Close();
+        }
+
+        public static void searchUrlMatching(string _text, List<string> _fileListEtml, string _url)
+        {
+            foreach (string s in WebPage.getAllUrls())
+            {
+                if (WebPage.searchOnWeb(_text, s) != "")
+                {
+
+                    /* ListViewItem lvi = new ListViewItem(s);
+                     _fileListEtml.Add(s);
+                     view.addListViewItem(lvi, 0);*/
+                }
+            }
         }
         public static void eduDataToXML()
         {
@@ -107,8 +194,16 @@ namespace SmartThesaurusLibrary
 
         public static void actualiseDataEtml()
         {
+            Dictionary<string, string> listUrls = new Dictionary<string, string>();
 
+            foreach (string url in WebPage.getAllUrls())
+            {
+                using (System.Net.WebClient webClient = new System.Net.WebClient())
+                    listUrls.Add(url, webClient.DownloadString(url));
+            }
+            etmlDataToXML(listUrls);
         }
+
         public static void actualiseDataEducanet()
         {
 

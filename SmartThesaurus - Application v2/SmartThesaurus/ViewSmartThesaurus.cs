@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Drawing;
 using System.Net;
 using System.ServiceProcess;
 using System.Windows.Forms;
@@ -11,47 +12,56 @@ namespace SmartThesaurus
     public partial class formSearch : Form
     {
         Controller controller;
+        ManualDateDialog manualActualisation;
+        EducanetLogin login;
+        ServiceBase service;
+
+        const string PATH = @"K:\INF\eleves\temp";
+
         List<string> listCmb = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
-        //List<SmartThesaurusLibrary.Url> fileListEtml = new List<SmartThesaurusLibrary.Url>();
-        //DirectoryInfo PATH = new DirectoryInfo(@"K:\INF\eleves\temp", SearchOption.AllDirectories);
-        const string PATH = @"K:\INF\eleves\temp";
-        List<SmartThesaurusLibrary.File> sortedListFileEtml = new List<SmartThesaurusLibrary.File>();
-        List<SmartThesaurusLibrary.File> sortedListFileEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
-        const string ETML = "ETML";
-        const string EDUCANET = "Educanet2";
-        const string TEMP = "Temp";
-        const string SERVICENAME = "serviceActualisation";
-
-        ManualDateDialog manualActualisation;
-        EducanetLogin login;
-
-        ServiceBase service;
-
-
-        /// <summary> 
-        /// Permet de pouvoir deplacer l'application malgré que le formBorderStyle soit à "none" !! mais permet de l'agrandir
-        /// </summary>
-        /// <param name="m"></param>
-        /*  protected override void WndProc(ref Message m)
-          {
-              const int WM_NCHITTEST = 0x84;
-              const int HT_CLIENT = 0x1;
-              const int HT_CAPTION = 0x2;
-              base.WndProc(ref m);
-              if (m.Msg == WM_NCHITTEST)
-                  m.Result = (IntPtr)(HT_CAPTION);
-
-          }*/
-
 
         public formSearch()
         {
             InitializeComponent();
             InitialiseForm();
+            
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape)
+            {
+                this.AcceptButton = btnClose;//Bouton avec le focus (enter pour cliquer)
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        //Global variables;
+        private bool _dragging = false;
+        private Point _start_point = new Point(0, 0);
+
+
+        private void formSearch_MouseDown(object sender, MouseEventArgs e)
+        {
+            _dragging = true;  // _dragging is your variable flag
+            _start_point = new Point(e.X, e.Y);
+        }
+
+        private void formSearch_MouseUp(object sender, MouseEventArgs e)
+        {
+            _dragging = false;
+        }
+
+        private void formSearch_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_dragging)
+            {
+                Point p = PointToScreen(e.Location);
+                Location = new Point(p.X - this._start_point.X, p.Y - this._start_point.Y);
+            }
+        } 
 
         public void InitialiseForm()
         {
@@ -63,12 +73,14 @@ namespace SmartThesaurus
             //ramene le combobox au dessus (visuel)
             lblBackColor.BringToFront();
             cmbActualisation.BringToFront();
-            controller.LoadTempData(ref fileListTemp,PATH);
+            checkbTemp.BringToFront();
+            checkbEtml.BringToFront();
+            controller.LoadTempData(ref fileListTemp, PATH);
             initialiseComboBox();
             //actualiseData();
             //Affiche tout les fichiers stockés
 
-            
+
         }
         public void logEducanet()
         {
@@ -111,7 +123,7 @@ namespace SmartThesaurus
         /// <param name="index"></param>
         public void actualiseData()
         {
-            controller.actualiseData(PATH, fileListTemp,ref sortedListFileTemp);
+            controller.actualiseData(PATH, fileListTemp, ref sortedListFileTemp);
             /*controller.actualiseData(PATH, fileListEducanet);
             controller.actualiseData(PATH, fileListEtml);*/
         }
@@ -179,9 +191,17 @@ namespace SmartThesaurus
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
             clearListViewEtml();
-            if(txbInputEtml.Text!="")
+            if (txbInputEtml.Text != "")
             {
-                controller.searchUrlMatching(txbInputEtml.Text);
+
+                if (checkbTemp.Checked)
+                {
+                    controller.checkSearchTemp(txbInputEtml.Text, fileListTemp, ref sortedListFileTemp, PATH);
+                }
+                if (checkbEtml.Checked)
+                {
+                    controller.searchUrlMatching(txbInputEtml.Text);
+                }
             }
 
         }
@@ -189,10 +209,7 @@ namespace SmartThesaurus
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
             listViewResultTemp.Items.Clear();
-            if (txbInputTemp.Text != "")
-            {
-                controller.checkSearchTemp(txbInputTemp.Text, fileListTemp, ref sortedListFileTemp, PATH);
-            }
+
         }
 
         public void clearListViewTemp()
@@ -268,7 +285,8 @@ namespace SmartThesaurus
                     {
                         manualActualisation.Hide();
                         MessageBox.Show("Veuillez choisir une date");
-                    }else
+                    }
+                    else
                     {
                         setDateXML(listCmb[cmbActualisation.SelectedIndex]);
                         startService();
@@ -327,12 +345,30 @@ namespace SmartThesaurus
             login.ShowDialog();
         }
 
-        private void listViewResultEtml_ItemActivate(object sender, EventArgs e)
+        private void listViewResultEtml_DoubleClick(object sender, EventArgs e)
         {
-
-            Process.Start(listViewResultEtml.SelectedItems[0].Name);
-
+            if (listViewResultEtml.SelectedItems.Count > 0)
+            {
+                ListViewItem item = listViewResultEtml.SelectedItems[0];
+                try
+                {
+                    //MessageBox.Show(item.SubItems[1].Text + "\\" + item.SubItems[0].Text);
+                    Process.Start(sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index].Directory + @"\" + sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index].Name);
+                }
+                catch
+                {
+                    try
+                    {
+                        Process.Start(item.SubItems[1].Text);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Echec de l'ouverture du fichier, il à peut être été supprimé ou modifié");
+                    }
+                }
+            }
         }
+        
     }
 
 }

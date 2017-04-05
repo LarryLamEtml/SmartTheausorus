@@ -49,6 +49,11 @@ namespace SmartThesaurus
                             lvi.SubItems.Add(fi.Directory.ToString());
                             view.addListViewItem(lvi, 2);
                             _sortedListFileTemp.Add(fi);
+
+                            ListViewItem lviEtml = new ListViewItem(fi.Name);
+                            lviEtml.SubItems.Add(fi.Directory.ToString());
+                            lviEtml.SubItems.Add((fi.Size));
+                            view.addListViewItem(lviEtml, 0);
                         }
                     }
                     else
@@ -130,18 +135,22 @@ namespace SmartThesaurus
 
             Dictionary<string, string> listUrls = new Dictionary<string, string>();
             listUrls = readEtmlData();
-            int count = 0;
             if (listUrls != null)
             {
                 foreach (var url in listUrls)
                 {
                     if (containsWordEtml(url.Value, _text))
                     {
-
-                        ListViewItem lvi = new ListViewItem(url.Key+" "+count.ToString());
+                        string[] name = url.Key.Split('/');
+                        if(name[name.Count() - 1] == "")
+                        {
+                            name[name.Count() - 1] = "etml.ch";
+                        }
+                        ListViewItem lvi = new ListViewItem(name[name.Count() - 1]);
+                        lvi.SubItems.Add(url.Key);
+                        lvi.SubItems.Add("-");
                         //_fileListEtml.Add(new SmartThesaurusLibrary.Url(url.Key,url.Value));
                         view.addListViewItem(lvi, 0);
-                        count++;
                     }
                 }
             }
