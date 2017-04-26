@@ -191,15 +191,33 @@ namespace SmartThesaurus
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
             clearListViewEtml();
+            clearListViewTemp();
+
             if (txbInputEtml.Text != "")
             {
 
                 if (checkbTemp.Checked)
                 {
+                    //Ajout d'une ligne de titre 
+                    ListViewItem lviTitleTemp = new ListViewItem("Fichiers du temp");
+                    lviTitleTemp.Font = new Font(lviTitleTemp.Font, FontStyle.Bold); //met la ligne en gras
+                    addListViewItem(lviTitleTemp, 0);
+
+                    //Ajout d'une ligne de titre pour l'onglet detail
+                    ListViewItem lviTitleTempDetails = new ListViewItem("Details des fichiers du temp");
+                    lviTitleTempDetails.Font = new Font(lviTitleTempDetails.Font, FontStyle.Bold); //met la ligne en gras
+                    addListViewItem(lviTitleTempDetails, 2);
+
                     controller.checkSearchTemp(txbInputEtml.Text, fileListTemp, ref sortedListFileTemp, PATH);
                 }
                 if (checkbEtml.Checked)
                 {
+
+                    //Ajout d'une ligne de titre 
+                    ListViewItem lviTitleEtml = new ListViewItem("Etml");
+                    lviTitleEtml.Font = new Font(lviTitleEtml.Font, FontStyle.Bold); //met la ligne en gras
+                    addListViewItem(lviTitleEtml, 0);
+
                     controller.searchUrlMatching(txbInputEtml.Text);
                 }
             }

@@ -27,7 +27,6 @@ namespace SmartThesaurus
         {
             try
             {
-                view.clearListViewTemp();
                 _sortedListFileTemp.Clear();
                 Regex regexCondition = new Regex(@"");
 
@@ -47,13 +46,13 @@ namespace SmartThesaurus
                             lvi.SubItems.Add((fi.Size));
                             lvi.SubItems.Add(fi.LastWriteTime.ToString());
                             lvi.SubItems.Add(fi.Directory.ToString());
-                            view.addListViewItem(lvi, 2);
+                            addListViewItem(lvi, 2);
                             _sortedListFileTemp.Add(fi);
 
                             ListViewItem lviEtml = new ListViewItem(fi.Name);
                             lviEtml.SubItems.Add(fi.Directory.ToString());
                             lviEtml.SubItems.Add((fi.Size));
-                            view.addListViewItem(lviEtml, 0);
+                            addListViewItem(lviEtml, 0);
                         }
                     }
                     else
@@ -62,7 +61,7 @@ namespace SmartThesaurus
                         lvi.SubItems.Add((fi.Size));
                         lvi.SubItems.Add(fi.LastWriteTime.ToString());
                         lvi.SubItems.Add(fi.Directory.ToString());
-                        view.addListViewItem(lvi, 2);
+                        addListViewItem(lvi, 2);
                         _sortedListFileTemp.Add(fi);
                     }
 
@@ -142,7 +141,7 @@ namespace SmartThesaurus
                     if (containsWordEtml(url.Value, _text))
                     {
                         string[] name = url.Key.Split('/');
-                        if(name[name.Count() - 1] == "")
+                        if (name[name.Count() - 1] == "")
                         {
                             name[name.Count() - 1] = "etml.ch";
                         }
@@ -150,7 +149,7 @@ namespace SmartThesaurus
                         lvi.SubItems.Add(url.Key);
                         lvi.SubItems.Add("-");
                         //_fileListEtml.Add(new SmartThesaurusLibrary.Url(url.Key,url.Value));
-                        view.addListViewItem(lvi, 0);
+                        addListViewItem(lvi, 0);
                     }
                 }
             }
@@ -166,15 +165,19 @@ namespace SmartThesaurus
             bool containsWord = tableWords.Contains(word);*/
             Regex regexCondition = new Regex(@".*(" + Regex.Escape(word) + @").*");
             Match match = regexCondition.Match(content);
-            if(match.Success)
+            if (match.Success)
             {
                 return true;
-            }else
+            }
+            else
             {
                 return false;
             }
         }
-
+        public void addListViewItem(ListViewItem lvi, int index)
+        {
+            view.addListViewItem(lvi, index);
+        }
         public Dictionary<string, string> readEtmlData()
         {
             Dictionary<string, string> listUrls = new Dictionary<string, string>();
@@ -214,7 +217,7 @@ namespace SmartThesaurus
         //                    lvi.SubItems.Add((fi.Size));
         //                    lvi.SubItems.Add(fi.LastWriteTime.ToString());
         //                    lvi.SubItems.Add(fi.Directory.ToString());
-        //                    view.addListViewItem(lvi, 2);
+        //                    addListViewItem(lvi, 2);
         //                    _sortedListFileTemp.Add(fi);
         //                }
         //            }
@@ -224,7 +227,7 @@ namespace SmartThesaurus
         //                lvi.SubItems.Add((fi.Size));
         //                lvi.SubItems.Add(fi.LastWriteTime.ToString());
         //                lvi.SubItems.Add(fi.Directory.ToString());
-        //                view.addListViewItem(lvi, 2);
+        //                addListViewItem(lvi, 2);
         //                _sortedListFileTemp.Add(fi);
         //            }
 
