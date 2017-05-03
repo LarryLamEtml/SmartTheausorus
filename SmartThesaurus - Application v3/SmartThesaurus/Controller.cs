@@ -25,65 +25,58 @@ namespace SmartThesaurus
 
         public void checkSearchTemp(string _input, List<SmartThesaurusLibrary.File> _fileListTemp, ref List<SmartThesaurusLibrary.File> _sortedListFileTemp, string path)
         {
+            List<ListViewItem> listLviDetails = new List<ListViewItem>();
             List<ListViewItem> listLvi = new List<ListViewItem>();
-            List<ListViewItem> listLviEtml = new List<ListViewItem>();
 
-            int count = 0;
             try
             {
                 _sortedListFileTemp.Clear();
                 Regex regexCondition = new Regex(@"");
 
-                if (_input != "")
-                {
-                    regexCondition = new Regex(@".*(" + Regex.Escape(_input) + @").*");
-                }
-                foreach (SmartThesaurusLibrary.File fi in _fileListTemp)
-                {
-                    Match match = regexCondition.Match(fi.Name);
-                    if (match.Success)
-                    {
-                        count++;
-                    }
-                }
-                view.suspendListView();
-                view.setProgressBar(count);
 
                 foreach (SmartThesaurusLibrary.File fi in _fileListTemp)
                 {
                     if (_input != "")
                     {
+                        regexCondition = new Regex(@".*(" + Regex.Escape(_input) + @").*");
                         Match match = regexCondition.Match(fi.Name);
                         if (match.Success)
                         {
-                            view.incrementProgressBar();
+                            ListViewItem lviDetails = new ListViewItem(fi.Name);
+                            lviDetails.SubItems.Add((fi.Size));
+                            lviDetails.SubItems.Add(fi.LastWriteTime.ToString());
+                            lviDetails.SubItems.Add(fi.Directory.ToString());
+                            listLviDetails.Add(lviDetails);
+
                             ListViewItem lvi = new ListViewItem(fi.Name);
                             lvi.SubItems.Add((fi.Size));
-                            lvi.SubItems.Add(fi.LastWriteTime.ToString());
                             lvi.SubItems.Add(fi.Directory.ToString());
-                            addListViewItem(lvi, 2);
+                            listLvi.Add(lvi);
                             _sortedListFileTemp.Add(fi);
-
-                            ListViewItem lviEtml = new ListViewItem(fi.Name);
-                            lviEtml.SubItems.Add(fi.Directory.ToString());
-                            lviEtml.SubItems.Add((fi.Size));
-                            addListViewItem(lviEtml, 0);
                         }
                     }
                     else
                     {
-                        view.incrementProgressBar();
+                        ListViewItem lviDetails = new ListViewItem(fi.Name);
+                        lviDetails.SubItems.Add((fi.Size));
+                        lviDetails.SubItems.Add(fi.LastWriteTime.ToString());
+                        lviDetails.SubItems.Add(fi.Directory.ToString());
+                        listLviDetails.Add(lviDetails);
+
                         ListViewItem lvi = new ListViewItem(fi.Name);
                         lvi.SubItems.Add((fi.Size));
-                        lvi.SubItems.Add(fi.LastWriteTime.ToString());
                         lvi.SubItems.Add(fi.Directory.ToString());
-                        addListViewItem(lvi, 2);
+                        listLvi.Add(lvi);
                         _sortedListFileTemp.Add(fi);
+
 
                     }
 
                 }
-                view.enableListView();
+                view.setProgressBar(listLvi.Count);
+                addListViewItem(listLviDetails, 2);
+                view.resetProgressBarValue();
+                addListViewItem(listLvi, 0);
             }
             catch (Exception ex)
             {
@@ -149,15 +142,19 @@ namespace SmartThesaurus
         //    SmartThesaurusLibrary.XML.etmlDataToXML(listUrls, listContent);
         //}
 
-        public void searchUrlMatching(string _text)
+        public void                                         searchUrlMatching(string _text)
         {
 
             Dictionary<string, string> listUrls = new Dictionary<string, string>();
+            List<ListViewItem> listLvi = new List<ListViewItem>();
             listUrls = readEtmlData();
+            int count = 0;
             if (listUrls != null)
             {
+
                 foreach (var url in listUrls)
                 {
+                    //string url = listUrls.Keys.Take(1);
                     if (containsWordEtml(url.Value, _text))
                     {
                         string[] name = url.Key.Split('/');
@@ -169,9 +166,12 @@ namespace SmartThesaurus
                         lvi.SubItems.Add(url.Key);
                         lvi.SubItems.Add("-");
                         //_fileListEtml.Add(new SmartThesaurusLibrary.Url(url.Key,url.Value));
-                        addListViewItem(lvi, 0);
+                        listLvi.Add(lvi);
                     }
+                    count++;
                 }
+                view.setProgressBar(listLvi.Count);
+                addListViewItem(listLvi, 0);
             }
             else
             {
@@ -183,7 +183,14 @@ namespace SmartThesaurus
         {
             /*string[] tableWords = content.Split(' ');
             bool containsWord = tableWords.Contains(word);*/
-            Regex regexCondition = new Regex(@".*(" + Regex.Escape(word) + @").*");
+            //Regex regexCondition = new Regex(@".*(" + Regex.Escape(word) + @").*");
+            if(content.ToLower().Contains(word.ToLower()))
+            {
+                return true;
+            }else
+            {
+                return false;
+            }/*
             Match match = regexCondition.Match(content);
             if (match.Success)
             {
@@ -192,7 +199,7 @@ namespace SmartThesaurus
             else
             {
                 return false;
-            }
+            }*/
         }
         public void addListViewItem(List<ListViewItem> listLvi, int index)
         {
