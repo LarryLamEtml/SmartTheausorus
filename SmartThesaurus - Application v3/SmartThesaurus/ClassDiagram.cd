@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SmartThesaurus.BackgroundManager">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAASAAAEhAAAAAABCAgAkAAAyAAAAAAACAEAABAA=</HashCode>
+      <FileName>BackgroundManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartThesaurus.Controller">
+    <Position X="2.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAAAAGAAEAIIAIAEBAQAAAAAAAQABAAAAAAA=</HashCode>
+      <FileName>Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartThesaurus.formSearch">
+    <Position X="4.75" Y="1" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IEGEVMGACSQQ7BMEQBOoIQg/EgAMSQAIQMIBAyLBEsA=</HashCode>
+      <FileName>ViewSmartThesaurus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartThesaurusLibrary.File">
+    <Position X="10.25" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SmartThesaurusLibrary.Library">
+    <Position X="8.5" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SmartThesaurusLibrary.Url">
+    <Position X="8.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SmartThesaurusLibrary.XML">
+    <Position X="6.75" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SmartThesaurusLibrary.WebPage">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

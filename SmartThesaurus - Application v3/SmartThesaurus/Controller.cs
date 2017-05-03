@@ -25,6 +25,10 @@ namespace SmartThesaurus
 
         public void checkSearchTemp(string _input, List<SmartThesaurusLibrary.File> _fileListTemp, ref List<SmartThesaurusLibrary.File> _sortedListFileTemp, string path)
         {
+            List<ListViewItem> listLvi = new List<ListViewItem>();
+            List<ListViewItem> listLviEtml = new List<ListViewItem>();
+
+            int count = 0;
             try
             {
                 _sortedListFileTemp.Clear();
@@ -34,6 +38,16 @@ namespace SmartThesaurus
                 {
                     regexCondition = new Regex(@".*(" + Regex.Escape(_input) + @").*");
                 }
+                foreach (SmartThesaurusLibrary.File fi in _fileListTemp)
+                {
+                    Match match = regexCondition.Match(fi.Name);
+                    if (match.Success)
+                    {
+                        count++;
+                    }
+                }
+                view.suspendListView();
+                view.setProgressBar(count);
 
                 foreach (SmartThesaurusLibrary.File fi in _fileListTemp)
                 {
@@ -42,6 +56,7 @@ namespace SmartThesaurus
                         Match match = regexCondition.Match(fi.Name);
                         if (match.Success)
                         {
+                            view.incrementProgressBar();
                             ListViewItem lvi = new ListViewItem(fi.Name);
                             lvi.SubItems.Add((fi.Size));
                             lvi.SubItems.Add(fi.LastWriteTime.ToString());
@@ -57,15 +72,18 @@ namespace SmartThesaurus
                     }
                     else
                     {
+                        view.incrementProgressBar();
                         ListViewItem lvi = new ListViewItem(fi.Name);
                         lvi.SubItems.Add((fi.Size));
                         lvi.SubItems.Add(fi.LastWriteTime.ToString());
                         lvi.SubItems.Add(fi.Directory.ToString());
                         addListViewItem(lvi, 2);
                         _sortedListFileTemp.Add(fi);
+
                     }
 
                 }
+                view.enableListView();
             }
             catch (Exception ex)
             {
@@ -88,7 +106,7 @@ namespace SmartThesaurus
             LoadTempData(ref _fileListTemp, _PATH);
             SmartThesaurusLibrary.XML.actualiseDataEtml();
             view.searchEtml();
-            
+
             //SmartThesaurusLibrary.XML.actualiseDataEducanet();
         }
 
@@ -176,9 +194,9 @@ namespace SmartThesaurus
                 return false;
             }
         }
-        public void addListViewItem(ListViewItem lvi, int index)
+        public void addListViewItem(List<ListViewItem> listLvi, int index)
         {
-            view.addListViewItem(lvi, index);
+            view.addListViewItem(listLvi, index);
         }
         public Dictionary<string, string> readEtmlData()
         {

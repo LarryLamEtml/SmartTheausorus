@@ -185,9 +185,14 @@ namespace SmartThesaurusLibrary
 
             foreach (FileInfo fi in listFileinfoTemp)
             {
-                File file = new File(idCount, fi.Name, Library.BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString());
-                _fileListTemp.Add(file);
-                idCount++;
+                try {
+                    File file = new File(idCount, fi.Name, Library.BytesToString(fi.Length), fi.LastWriteTime, fi.Directory.ToString());
+                    _fileListTemp.Add(file);
+                    idCount++;
+                }catch
+                {
+
+                }
             }
             tempDataToXML(_fileListTemp);
         }

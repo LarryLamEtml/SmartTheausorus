@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +19,12 @@ namespace SmartThesaurus
         EducanetLogin login;
 
         const string PATH = @"K:\INF\eleves\temp";
+        const string modeActualisation = "Actualisation";
+        const string modeDay = "Chaque jour";
+        const string modeHour = "Chaque heure";
+        const string modeCustom = "Personnalisé";
+        const string modeManual = "Manuel";
+        const string modeNow = "Maintenant";
 
         List<string> listCmb = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
@@ -25,9 +33,29 @@ namespace SmartThesaurus
 
         public formSearch()
         {
+            IsProcessOpen("SmartThesaurus");
+        }
+
+        public void IsProcessOpen(string name)
+        {
+            List<Process> listProcess = new List<Process>();
+            foreach (Process clsProcess in Process.GetProcesses())
+            {
+                if (clsProcess.ProcessName.Contains(name))
+                {
+                    listProcess.Add(clsProcess);
+
+                }
+            }
+            foreach (var process in listProcess)
+            {
+                if (process.Id != Process.GetCurrentProcess().Id)
+                {
+                    process.Kill();
+                }
+            }
             InitializeComponent();
             InitialiseForm();
-
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -68,7 +96,6 @@ namespace SmartThesaurus
             manualActualisation = new ManualDateDialog(this);
             controller = new Controller(this, manualActualisation);
             login = new EducanetLogin(this);
-
             this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
             //ramene le combobox au dessus (visuel)
             listViewResultTemp.BringToFront();
@@ -77,6 +104,8 @@ namespace SmartThesaurus
             checkbEtml.BringToFront();
             controller.LoadTempData(ref fileListTemp, PATH);
             initialiseComboBox();
+            startService();
+
             //actualiseData();
             //Affiche tout les fichiers stockés
 
@@ -103,11 +132,12 @@ namespace SmartThesaurus
             listCmb.Clear();//Vide la liste
 
             //Ajoute les options dans une liste
-            listCmb.Add("Actualisation");
-            listCmb.Add("Chaque jour");
-            listCmb.Add("Chaque heure");
-            listCmb.Add("Personnalisé");
-            listCmb.Add("Manuel");
+            listCmb.Add(modeActualisation);
+            listCmb.Add(modeDay);
+            listCmb.Add(modeHour);
+            listCmb.Add(modeCustom);
+            listCmb.Add(modeManual);
+            listCmb.Add(modeNow);
             //Pour chaque élément de la liste, l'ajouter à la ComboBox
             foreach (string choice in listCmb)
             {
@@ -146,24 +176,44 @@ namespace SmartThesaurus
         /// Ajoute l'item à la listView et redimensionne celle-ci
         /// </summary>
         /// <param name="lvi"></param>
-        public void addListViewItem(ListViewItem lvi, int index)
+        public void addListViewItem(List<ListViewItem> listLvi, int index)
         {
             switch (index)
             {
                 case 0:
-                    listViewResultEtml.Items.Add(lvi);//Ajoute l'item à la listView
-                    listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-                    listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+
+                    this.listViewResultEtml.Invoke((MethodInvoker)delegate
+                    {
+                        foreach (ListViewItem lvi in listLvi)
+                        {
+                            listViewResultEtml.Items.Add(lvi);//Ajoute l'item à la listView
+                            listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                            listViewResultEtml.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                        }
+                    });
                     break;
                 case 1:
-                    listViewResultEducanet.Items.Add(lvi);//Ajoute l'item à la listView
-                    listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-                    listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                    this.listViewResultEducanet.Invoke((MethodInvoker)delegate
+                    {
+                        foreach (ListViewItem lvi in listLvi)
+                        {
+                            listViewResultEducanet.Items.Add(lvi);//Ajoute l'item à la listView
+                            listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                            listViewResultEducanet.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                        }
+                    });
                     break;
                 case 2:
-                    listViewResultTemp.Items.Add(lvi);//Ajoute l'item à la listView
-                    listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
-                    listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+
+                    this.listViewResultTemp.Invoke((MethodInvoker)delegate
+                    {
+                        foreach (ListViewItem lvi in listLvi)
+                        {
+                            listViewResultTemp.Items.Add(lvi);//Ajoute l'item à la listView
+                            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);//Ajuste la taille de la colonne en fonction des données
+                            listViewResultTemp.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);//Définis la taille minimum = taille du header
+                        }
+                    });
                     break;
             }
         }
@@ -187,7 +237,9 @@ namespace SmartThesaurus
         /// <param name="e"></param>
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Hide();
+
+            //Close();
         }
 
 
@@ -205,6 +257,8 @@ namespace SmartThesaurus
 
                 if (checkbTemp.Checked)
                 {
+                    pbLoadingTime.Value = 0;
+
                     //Ajout d'une ligne de titre 
                     ListViewItem lviTitleTemp = new ListViewItem("Fichiers du temp");
                     lviTitleTemp.Font = new Font(lviTitleTemp.Font, FontStyle.Bold); //met la ligne en gras
@@ -219,6 +273,7 @@ namespace SmartThesaurus
                 }
                 if (checkbEtml.Checked)
                 {
+                    // pbLoadingTime.Value = 0;
 
                     //Ajout d'une ligne de titre 
                     ListViewItem lviTitleEtml = new ListViewItem("Etml");
@@ -229,8 +284,40 @@ namespace SmartThesaurus
                 }
             }
         }
+        public void setProgressBar(int size)
+        {
+            pbLoadingTime.Maximum = size;
+            pbLoadingTime.Minimum = 0;
+            pbLoadingTime.Step = 1;
+        }
+        public void incrementProgressBar()
+        {
+            pbLoadingTime.Value += 1;
+        }
+        public void suspendListView()
+        {
+            this.listViewResultTemp.Invoke((MethodInvoker)delegate
+            {
+                listViewResultTemp.Enabled = false;
+            });
+            this.listViewResultEtml.Invoke((MethodInvoker)delegate
+            {
+                listViewResultEtml.Enabled = false;
+            });
 
 
+        }
+        public void enableListView()
+        {
+            this.listViewResultTemp.Invoke((MethodInvoker)delegate
+            {
+                listViewResultTemp.Enabled = true;
+            });
+            this.listViewResultEtml.Invoke((MethodInvoker)delegate
+            {
+                listViewResultEtml.Enabled = true;
+            });
+        }
         private void btnSearchTemp_Click(object sender, EventArgs e)
         {
             listViewResultTemp.Items.Clear();
@@ -239,15 +326,26 @@ namespace SmartThesaurus
 
         public void clearListViewTemp()
         {
-            listViewResultTemp.Items.Clear();
+            this.listViewResultTemp.Invoke((MethodInvoker)delegate
+            {
+                listViewResultTemp.Items.Clear();
+            });
         }
         public void clearListViewEtml()
         {
-            listViewResultEtml.Items.Clear();
+            this.listViewResultEtml.Invoke((MethodInvoker)delegate
+            {
+                // Running on the UI thread                          
+                listViewResultEtml.Items.Clear();
+
+            });
         }
         public void clearListViewEducanet()
         {
-            listViewResultEducanet.Items.Clear();
+            this.listViewResultEducanet.Invoke((MethodInvoker)delegate
+            {
+                listViewResultEducanet.Items.Clear();
+            });
         }
 
         /// <summary>
@@ -320,6 +418,18 @@ namespace SmartThesaurus
                     //Lance ou relance le service
                     //service = new actualisationService(this);
                     break;
+                case 5:
+                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);
+                    DialogResult dialogResult = MessageBox.Show("Voulez-vous actualiser les données ?", "Mise à jour de la base de données", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        Task.Factory.StartNew(() => actualiseData());
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        cmbActualisation.SelectedIndex = 1;//Change l'index à 1
+                    }
+                    break;
             }
 
         }
@@ -344,8 +454,27 @@ namespace SmartThesaurus
 
             BackgroundManager service;
             Task.Factory.StartNew(() => service = new BackgroundManager(this));
+        }
 
-
+        public void setActualisationMode(string mode)
+        {
+            switch (mode)
+            {
+                case modeDay:
+                    cmbActualisation.SelectedIndex = 1;
+                    break;
+                case modeHour:
+                    cmbActualisation.SelectedIndex = 2;
+                    break;
+                case modeCustom:
+                    cmbActualisation.SelectedIndex = 3;
+                    break;
+                case modeManual:
+                    cmbActualisation.SelectedIndex = 4;
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -404,6 +533,11 @@ namespace SmartThesaurus
                 lblBackColor.Show();
             }
         }
+
+        private void pbLoadingTime_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-     
+
 }

@@ -36,6 +36,8 @@ namespace SmartThesaurus
             this.pnlMain = new System.Windows.Forms.Panel();
             this.TbCMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pbLoadingTime = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.checkbTemp = new System.Windows.Forms.CheckBox();
@@ -121,6 +123,8 @@ namespace SmartThesaurus
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.pbLoadingTime);
+            this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.checkbTemp);
@@ -134,6 +138,23 @@ namespace SmartThesaurus
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ETML";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pbLoadingTime
+            // 
+            this.pbLoadingTime.Location = new System.Drawing.Point(10, 69);
+            this.pbLoadingTime.Name = "pbLoadingTime";
+            this.pbLoadingTime.Size = new System.Drawing.Size(712, 31);
+            this.pbLoadingTime.TabIndex = 27;
+            this.pbLoadingTime.Click += new System.EventHandler(this.pbLoadingTime_Click);
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(250)))), ((int)(((byte)(65)))));
+            this.label3.Location = new System.Drawing.Point(9, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(715, 34);
+            this.label3.TabIndex = 25;
+            this.label3.Text = " ";
             // 
             // label2
             // 
@@ -182,9 +203,9 @@ namespace SmartThesaurus
             this.colDirectory,
             this.colSize});
             this.listViewResultEtml.GridLines = true;
-            this.listViewResultEtml.Location = new System.Drawing.Point(9, 67);
+            this.listViewResultEtml.Location = new System.Drawing.Point(9, 104);
             this.listViewResultEtml.Name = "listViewResultEtml";
-            this.listViewResultEtml.Size = new System.Drawing.Size(715, 318);
+            this.listViewResultEtml.Size = new System.Drawing.Size(715, 280);
             this.listViewResultEtml.TabIndex = 23;
             this.listViewResultEtml.UseCompatibleStateImageBehavior = false;
             this.listViewResultEtml.View = System.Windows.Forms.View.Details;
@@ -550,6 +571,8 @@ namespace SmartThesaurus
         private ColumnHeader colHeadModified;
         private ColumnHeader colHeadDirectory;
         private Label lblBackColor;
+        private ProgressBar pbLoadingTime;
+        private Label label3;
     }
 }
 
