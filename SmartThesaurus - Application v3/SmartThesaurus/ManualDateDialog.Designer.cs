@@ -62,7 +62,6 @@
             this.dtp.Size = new System.Drawing.Size(180, 20);
             this.dtp.TabIndex = 5;
             this.dtp.Value = new System.DateTime(2017, 3, 1, 9, 28, 26, 0);
-            this.dtp.ValueChanged += new System.EventHandler(this.dtp_ValueChanged);
             // 
             // ManualDateDialog
             // 

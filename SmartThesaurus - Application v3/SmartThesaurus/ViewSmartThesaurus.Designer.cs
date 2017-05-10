@@ -145,7 +145,6 @@ namespace SmartThesaurus
             this.pbLoadingTime.Name = "pbLoadingTime";
             this.pbLoadingTime.Size = new System.Drawing.Size(712, 31);
             this.pbLoadingTime.TabIndex = 27;
-            this.pbLoadingTime.Click += new System.EventHandler(this.pbLoadingTime_Click);
             // 
             // label3
             // 

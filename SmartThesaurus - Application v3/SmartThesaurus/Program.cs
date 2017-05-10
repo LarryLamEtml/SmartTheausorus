@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
+///ETML
+///Auteur : lamho
+///Date : 03.05.2017
+///Description: Programme par défaut
+///
 namespace SmartThesaurus
 {
     static class Program

@@ -33,8 +33,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NCrontab, Version=3.2.20120.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ncrontab.3.3.0\lib\net35\NCrontab.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quartz, Version=2.5.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.5.0\lib\net40\Quartz.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SmarthThesaurusLibrary">
@@ -65,32 +81,19 @@
     <Compile Include="CookieAwareWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProjectInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProjectInstaller.Designer.cs">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </Compile>
-    <Compile Include="serviceActualisation.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="serviceActualisation.Designer.cs">
-      <DependentUpon>serviceActualisation.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Cron.cs" />
     <Compile Include="EducanetLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EducanetLogin.Designer.cs">
       <DependentUpon>EducanetLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="File.cs" />
     <Compile Include="ManualDateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ManualDateDialog.Designer.cs">
       <DependentUpon>ManualDateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MultiFormContext.cs" />
     <Compile Include="ViewSmartThesaurus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,25 +102,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tempData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="WebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="webLogin.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="EducanetLogin.resx">
       <DependentUpon>EducanetLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManualDateDialog.resx">
       <DependentUpon>ManualDateDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewSmartThesaurus.resx">
       <DependentUpon>ViewSmartThesaurus.cs</DependentUpon>
@@ -132,6 +121,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram.cd" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -142,17 +134,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="tempData.xsc">
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </None>
-    <None Include="tempData.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>tempData.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="tempData.xss">
-      <DependentUpon>tempData.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

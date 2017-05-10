@@ -1,64 +1,89 @@
-﻿using System;
+﻿///ETML
+///Auteur : lamho
+///Date : 11.01.2017
+///Description: Vue du programme. S'occupe de toute les requêtes interface-utilisateur
+///
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SmartThesaurus
 {
+    /// <summary>
+    /// Vue du programme. S'occupe de toute les requêtes interface-utilisateur
+    /// </summary>
     public partial class formSearch : Form
     {
+        //Classes
         Controller controller;
         ManualDateDialog manualActualisation;
         EducanetLogin login;
 
+        //Constantes
         const string PATH = @"K:\INF\eleves\temp";
         const string modeActualisation = "Actualisation";
         const string modeDay = "Chaque jour";
         const string modeHour = "Chaque heure";
-        const string modeCustom = "Personnalisé";
+        const string modeCustom = "Cron";
         const string modeManual = "Manuel";
         const string modeNow = "Maintenant";
 
+        //Pour la souris
+        private bool _dragging = false;
+        private Point _start_point = new Point(0, 0);
+
+        //Listes
         List<string> listCmb = new List<string>();
         List<SmartThesaurusLibrary.File> fileListEducanet = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> fileListTemp = new List<SmartThesaurusLibrary.File>();
         List<SmartThesaurusLibrary.File> sortedListFileTemp = new List<SmartThesaurusLibrary.File>();
 
+        /// <summary>
+        /// Constructeur
+        /// </summary>
         public formSearch()
         {
             IsProcessOpen("SmartThesaurus");
         }
 
+        /// <summary>
+        /// Vérifie si l'application est pas déjà lancée. Démarre une nouvelle instance
+        /// </summary>
+        /// <param name="name"></param>
         public void IsProcessOpen(string name)
         {
-            List<Process> listProcess = new List<Process>();
-            foreach (Process clsProcess in Process.GetProcesses())
+            List<Process> listProcess = new List<Process>();//Liste des processus
+            foreach (Process clsProcess in Process.GetProcesses())//Tous les processus en execution
             {
-                if (clsProcess.ProcessName.Contains(name))
+                if (clsProcess.ProcessName.Contains(name))//S'ils contiennent le mot "SmartThesaurus"
                 {
-                    listProcess.Add(clsProcess);
+                    listProcess.Add(clsProcess);//Les ajouter dans la liste
 
                 }
             }
-            foreach (var process in listProcess)
+
+            foreach (Process process in listProcess)//Parcours la liste
             {
-                if (process.Id != Process.GetCurrentProcess().Id)
+                if (process.Id != Process.GetCurrentProcess().Id)//Supprime tous les processus sauf l'actuel
                 {
-                    process.Kill();
+                    process.Kill();//Supprime le processus
                 }
             }
-            InitializeComponent();
-            InitialiseForm();
-            startService();
+            InitializeComponent();//Initalise les composants
+            InitialiseForm();//Initalise les controls
+            startService();//Démarre un service en arrière plan
 
         }
+        /// <summary>
+        /// Permet le focus sur le bouton exit lors du clique sur la touche escape
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
@@ -68,37 +93,52 @@ namespace SmartThesaurus
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        //Global variables;
-        private bool _dragging = false;
-        private Point _start_point = new Point(0, 0);
 
-
+        /// <summary>
+        /// Lors d'un click de souris
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void formSearch_MouseDown(object sender, MouseEventArgs e)
         {
-            _dragging = true;  // _dragging is your variable flag
-            _start_point = new Point(e.X, e.Y);
+            _dragging = true;  // _dragging variable flag
+            _start_point = new Point(e.X, e.Y);//change les coordonnées
         }
 
+        /// <summary>
+        /// Lorsque la souris n'est plus pressée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void formSearch_MouseUp(object sender, MouseEventArgs e)
         {
-            _dragging = false;
+            _dragging = false; // _dragging variable flag
         }
 
+        /// <summary>
+        /// Lors de mouvement de souris. (Obligé de faire tout cela car en mettant le style sans border la form de peut être déplacée)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void formSearch_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_dragging)
+            if (_dragging)//Si la souris est pressée
             {
+                //Déplace le form
                 Point p = PointToScreen(e.Location);
                 Location = new Point(p.X - this._start_point.X, p.Y - this._start_point.Y);
             }
         }
 
+        /// <summary>
+        /// Initialise les controls
+        /// </summary>
         public void InitialiseForm()
         {
             manualActualisation = new ManualDateDialog(this);
             controller = new Controller(this, manualActualisation);
             login = new EducanetLogin(this);
-            initialiseComboBox();
+            initialiseComboBox();// Initialise la liste déroulante
             this.AcceptButton = btnSearchEtml;//Bouton avec le focus (enter pour cliquer)
             //ramene le combobox au dessus (visuel)
             listViewResultTemp.BringToFront();
@@ -106,12 +146,10 @@ namespace SmartThesaurus
             checkbTemp.BringToFront();
             checkbEtml.BringToFront();
             controller.LoadTempData(ref fileListTemp, PATH);
-
-            //actualiseData();
-            //Affiche tout les fichiers stockés
-
-
         }
+        /// <summary>
+        /// Se connecte a educanet2
+        /// </summary>
         public void logEducanet()
         {
             var client = new CookieAwareWebClient();
@@ -161,25 +199,13 @@ namespace SmartThesaurus
             controller.actualiseData(PATH, fileListEtml);*/
         }
 
-        public void etmlDataToXML()
-        {
-
-        }
-        public void eduDataToXML()
-        {
-
-        }
-
-
-
-
         /// <summary>
         /// Ajoute l'item à la listView et redimensionne celle-ci
         /// </summary>
         /// <param name="lvi"></param>
         public void addListViewItem(List<ListViewItem> listLvi, int index)
         {
-            switch (index)
+            switch (index)//Switch avec le chiffre donné
             {
                 case 0:
 
@@ -264,6 +290,8 @@ namespace SmartThesaurus
 
                     });
                     break;
+                default:
+                    break;
             }
         }
 
@@ -291,83 +319,108 @@ namespace SmartThesaurus
             //Close();
         }
 
-
+        /// <summary>
+        /// Lors du clique sur le bouton btnSearchEtml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSearchEtml_Click(object sender, EventArgs e)
         {
-            searchEtml();
+            searchEtml();//Effectue la recherche
         }
+
+        /// <summary>
+        /// Effectue la recherche avec le/s mot/s donné/s dans la barre de recherche
+        /// </summary>
         public void searchEtml()
         {
+            //Vide les listviews
             clearListViewEtml();
             clearListViewTemp();
 
-            if (txbInputEtml.Text != "")
+            if (txbInputEtml.Text != "")//Si la barre de recherche n'est pas vide
             {
 
-                if (checkbTemp.Checked)
+                if (checkbTemp.Checked)//Si la case temp est cochée
                 {
-                    resetProgressBarValue();
+                    resetProgressBarValue();//Reset la barre de progression
 
                     //Ajout d'une ligne de titre 
                     ListViewItem lviTitleTemp = new ListViewItem("Fichiers du temp");
                     lviTitleTemp.Font = new Font(lviTitleTemp.Font, FontStyle.Bold); //met la ligne en gras
-                    addSingleListViewItem(lviTitleTemp, 0);
+                    addSingleListViewItem(lviTitleTemp, 0);//L'ajoute dans la LV
 
                     //Ajout d'une ligne de titre pour l'onglet detail
                     ListViewItem lviTitleTempDetails = new ListViewItem("Details des fichiers du temp");
                     lviTitleTempDetails.Font = new Font(lviTitleTempDetails.Font, FontStyle.Bold); //met la ligne en gras
-                    addSingleListViewItem(lviTitleTempDetails, 2);
+                    addSingleListViewItem(lviTitleTempDetails, 2);//L'ajoute dans la LV
 
-                    controller.checkSearchTemp(txbInputEtml.Text, fileListTemp, ref sortedListFileTemp, PATH);
+                    controller.checkSearchTemp(txbInputEtml.Text, fileListTemp, ref sortedListFileTemp, PATH);//Effectue la recherche avec le mot donné (-> controller)
                 }
-                if (checkbEtml.Checked)
+                if (checkbEtml.Checked)//Si la case temp est cochée
                 {
-                    resetProgressBarValue();
+                    resetProgressBarValue();//Reset la barre de progression
 
-                     //Ajout d'une ligne de titre 
-                     ListViewItem lviTitleEtml = new ListViewItem("Etml");
+                    //Ajout d'une ligne de titre 
+                    ListViewItem lviTitleEtml = new ListViewItem("Etml");
                     lviTitleEtml.Font = new Font(lviTitleEtml.Font, FontStyle.Bold); //met la ligne en gras
-                    addSingleListViewItem(lviTitleEtml, 0);
+                    addSingleListViewItem(lviTitleEtml, 0);//L'ajoute dans la LV
 
-                    controller.searchUrlMatching(txbInputEtml.Text);
+                    controller.searchUrlMatching(txbInputEtml.Text);//Regarde dans les données s'ils contiennent le mot clé
                 }
             }
         }
+        /// <summary>
+        /// Reset la barre de progression
+        /// </summary>
         public void resetProgressBarValue()
         {
             this.pbLoadingTime.Invoke((MethodInvoker)delegate
             {
-                pbLoadingTime.Value = 0;
+                pbLoadingTime.Value = 0;// Reset la barre de progression
             });
 
         }
+
+        //Définit la taille de la barre de progression
         public void setProgressBar(int size)
         {
             this.pbLoadingTime.Invoke((MethodInvoker)delegate
             {
-                pbLoadingTime.Maximum = size;
-                pbLoadingTime.Minimum = 0;
+                pbLoadingTime.Maximum = size;//Taille max
+                pbLoadingTime.Minimum = 0;//taille min
                 pbLoadingTime.Step = 1;
             });
 
         }
+        /// <summary>
+        /// Incrémente la barre de progression
+        /// </summary>
         public void incrementProgressBar()
         {
             pbLoadingTime.Value += 1;
         }
+        /// <summary>
+        /// Désactive la listview (utile lors de changement de données en multi-thread)
+        /// </summary>
         public void suspendListView()
         {
+            //Permet la modification de l'UI avec un autre thread
             this.listViewResultTemp.Invoke((MethodInvoker)delegate
             {
-                listViewResultTemp.Enabled = false;
+                listViewResultTemp.Enabled = false;//Désactive la listview 
             });
             this.listViewResultEtml.Invoke((MethodInvoker)delegate
             {
-                listViewResultEtml.Enabled = false;
+                listViewResultEtml.Enabled = false;//Désactive la listview 
             });
 
 
         }
+
+        /// <summary>
+        /// Réactive la listview
+        /// </summary>
         public void enableListView()
         {
             this.listViewResultTemp.Invoke((MethodInvoker)delegate
@@ -379,33 +432,35 @@ namespace SmartThesaurus
                 listViewResultEtml.Enabled = true;
             });
         }
-        private void btnSearchTemp_Click(object sender, EventArgs e)
-        {
-            listViewResultTemp.Items.Clear();
-
-        }
-
+        /// <summary>
+        /// Vide la listviewTemp
+        /// </summary>
         public void clearListViewTemp()
         {
             this.listViewResultTemp.Invoke((MethodInvoker)delegate
             {
-                listViewResultTemp.Items.Clear();
+                listViewResultTemp.Items.Clear();//Vide la listview
             });
         }
+        /// <summary>        
+        /// Vide la listviewEtml
+        /// </summary>
         public void clearListViewEtml()
         {
             this.listViewResultEtml.Invoke((MethodInvoker)delegate
             {
-                // Running on the UI thread                          
-                listViewResultEtml.Items.Clear();
+                listViewResultEtml.Items.Clear();//Vide la listview
 
             });
         }
+        /// <summary>
+        /// Vide la listviewEducanet
+        /// </summary>
         public void clearListViewEducanet()
         {
             this.listViewResultEducanet.Invoke((MethodInvoker)delegate
             {
-                listViewResultEducanet.Items.Clear();
+                listViewResultEducanet.Items.Clear();//Vide la listview
             });
         }
 
@@ -416,8 +471,8 @@ namespace SmartThesaurus
         /// <param name="e"></param>
         private void listViewResultTemp_ItemActivate(object sender, EventArgs e)
         {
-            int selectedFileIndex = listViewResultTemp.SelectedItems[0].Index;
-            //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name);//Test
+            int selectedFileIndex = listViewResultTemp.SelectedItems[0].Index;//stocke l'index de l'item selectionné
+            //MessageBox.Show(sortedListFileInfo[selectedFileIndex].DirectoryName + @"\" + sortedListFileInfo[selectedFileIndex].Name); //Test
             try
             {
                 //Execute le fichier associé
@@ -449,44 +504,38 @@ namespace SmartThesaurus
                 case 0:
                     break;
                 case 1:
-                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);
-                    //Lance ou relance le service
-                    //service = new actualisationService(this);
-                    startService();
+                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);//Définit la date avec l'index de l'option selectionnée
+                    startService();//Relance le service d'actualisation en arrière plan
                     break;
                 case 2:
-                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);
-                    //Lance ou relance le service
-                    //service = new actualisationService(this);
-                    startService();
+                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);//Définit la date avec l'index de l'option selectionnée
+                    startService();//Relance le service d'actualisation en arrière plan
                     break;
                 case 3:
-                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);
-                    useCron();
+                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);//Définit la date avec l'index de l'option selectionnée
+                    useCron();//Utilise la methode cron
                     break;
                 case 4:
-                    manualActualisation.ShowDialog();
-                    if (manualActualisation.getDate() == "")
+                    manualActualisation.ShowDialog();//Affiche le popup de selection de date
+                    if (manualActualisation.getDate() == "")//Si la date choisie n'est pas ""
                     {
-                        manualActualisation.Hide();
-                        MessageBox.Show("Veuillez choisir une date");
+                        manualActualisation.Hide();//Cache le popup
+                        MessageBox.Show("Veuillez choisir une date");//Affiche un message d'erreur
                     }
-                    else
+                    else//Sinon
                     {
-                        setDateXML(listCmb[cmbActualisation.SelectedIndex]);
-                        startService();
+                        setDateXML(listCmb[cmbActualisation.SelectedIndex]);//Définit la date avec l'index de l'option selectionnée
+                        startService();//Relance le service d'actualisation en arrière plan
                     }
-                    //Lance ou relance le service
-                    //service = new actualisationService(this);
                     break;
                 case 5:
-                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);
-                    DialogResult dialogResult = MessageBox.Show("Voulez-vous actualiser les données ?", "Mise à jour de la base de données", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    setDateXML(listCmb[cmbActualisation.SelectedIndex]);//Définit la date avec l'index de l'option selectionnée
+                    DialogResult dialogResult = MessageBox.Show("Voulez-vous actualiser les données ?", "Mise à jour de la base de données", MessageBoxButtons.YesNo);//Popup avec choix
+                    if (dialogResult == DialogResult.Yes)//Si l'utilisateur accepte
                     {
-                        Task.Factory.StartNew(() => actualiseData());
+                        Task.Factory.StartNew(() => actualiseData());//Actualise les données en arrière-plan
                     }
-                    cmbActualisation.SelectedIndex = 1;//Change l'index à 1
+                    cmbActualisation.SelectedIndex = 1;//Change l'option choisie de la liste déroulante à 1
                     break;
             }
 
@@ -498,56 +547,52 @@ namespace SmartThesaurus
         /// <param name="text"></param>
         public void setDateXML(string text)
         {
-            controller.setDateXML(text);
+            controller.setDateXML(text);//Execution sur le controleur
         }
 
         /// <summary>
-        /// 
+        /// Démarre ou redémarre le "service" d'actualisation en arrière plan
         /// </summary>
         private void startService()
         {
-            //Démarre un service
-            /*service = new serviceActualisation(this);
-            ServiceBase.Run(service);*/
-
             BackgroundManager service;
             Task.Factory.StartNew(() => service = new BackgroundManager(this));
         }
 
+        /// <summary>
+        /// Définit le mode d'actualisation suivant le string donné
+        /// </summary>
+        /// <param name="mode"></param>
         public void setActualisationMode(string mode)
         {
-            switch (mode)
+            switch (mode)//Switch avec les options 
             {
                 case modeDay:
                     this.cmbActualisation.Invoke((MethodInvoker)delegate
                     {
-                        cmbActualisation.SelectedIndex = 1;
-                        MessageBox.Show("1");
+                        cmbActualisation.SelectedIndex = 1;//Change l'option selectionné
                     });
                     break;
                 case modeHour:
                     this.cmbActualisation.Invoke((MethodInvoker)delegate
                     {
-                        cmbActualisation.SelectedIndex = 2;
-                        MessageBox.Show("2");
+                        cmbActualisation.SelectedIndex = 2;//Change l'option selectionné
                     });
                     break;
                 case modeCustom:
                     this.cmbActualisation.Invoke((MethodInvoker)delegate
                     {
-                        cmbActualisation.SelectedIndex = 3;
-                        MessageBox.Show("3");
+                        cmbActualisation.SelectedIndex = 3;//Change l'option selectionné
                     });
                     break;
                 case modeManual:
                     this.cmbActualisation.Invoke((MethodInvoker)delegate
                     {
-                        cmbActualisation.SelectedIndex = 4;
-                        MessageBox.Show("4");
+                        cmbActualisation.SelectedIndex = 4;//Change l'option selectionné
                     });
                     break;
                 default:
-                    MessageBox.Show("Defaut");
+                   // MessageBox.Show("Defaut");
                     break;
             }
 
@@ -572,47 +617,53 @@ namespace SmartThesaurus
             login.ShowDialog();
         }
 
+        /// <summary>
+        /// Lors d'un double click sur un item, l'ouvrir ou aller sur son url
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listViewResultEtml_DoubleClick(object sender, EventArgs e)
         {
-            if (listViewResultEtml.SelectedItems.Count > 0)
+            if (listViewResultEtml.SelectedItems.Count > 0)//S'il y a au moins 1 item cliqué
             {
-                ListViewItem item = listViewResultEtml.SelectedItems[0];
+                ListViewItem item = listViewResultEtml.SelectedItems[0];//Stocke l'item cliqué
                 try
                 {
-                    //MessageBox.Show(sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index].Directory + @"\" + sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index].Name);
-                    Process.Start(sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index-1].Directory + @"\" + sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index-1].Name);
+                    Process.Start(sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index-1].Directory + @"\" + sortedListFileTemp[listViewResultEtml.SelectedItems[0].Index-1].Name);//Essaie d'ouvrir le fichier
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        Process.Start(item.SubItems[1].Text);
+                        Process.Start(item.SubItems[1].Text);//Sinon, essai d'ouvrir sa page web
                     }
                     catch
                     {
-                        MessageBox.Show("Echec de l'ouverture du fichier, il à peut être été supprimé ou modifié");
+                        MessageBox.Show("Echec de l'ouverture du fichier, il à peut être été supprimé ou modifié");//Sinon affiche un message d'erreur
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Lors d'un changement de tab, afficher ou pas la comboBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TbCMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (TbCMain.SelectedIndex == 2)
+            if (TbCMain.SelectedIndex == 2)//Si le tab est sur la page détail
             {
+                //Cacher la combobox
                 cmbActualisation.Hide();
                 lblBackColor.Hide();
             }
-            else
+            else//Sinon
             {
+                //L'afficher
                 cmbActualisation.Show();
                 lblBackColor.Show();
             }
-        }
-
-        private void pbLoadingTime_Click(object sender, EventArgs e)
-        {
-
         }
     }
 
